@@ -1,0 +1,111 @@
+import { Button, Switch } from "@mui/material";
+import { Box } from "@mui/system";
+import { getCollections, importCollections } from "../utils/db";
+
+import { manager721Address, manager721ABI } from "../contracts";
+import { useAccount, useProvider } from "wagmi";
+import { ethers } from "ethers";
+
+export function Settings() {
+
+    const account = useAccount();
+    const provider = useProvider()
+
+    function handleExport() {
+        getCollections().then((collections) => {
+            // console.log(collections);
+
+            // 나중에 settings 등 추가가능
+            const exportJson = {
+                collections: collections
+            }
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportJson));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "collections.json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+
+
+
+
+        })
+    }
+
+    function handleImport(event) {
+        // console.log(event.target.files);
+        // console.log(event.target.files[0]);
+
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = (evt) => {
+            console.log(evt.target.result);
+            const collections = JSON.parse(evt.target.result).collections;
+            console.log(collections);
+            importCollections(collections).then((lastKey) => {
+                console.log(lastKey);
+            })
+        }
+
+
+    }
+
+    async function handleRecovry() {
+        console.log("handleRecovry");
+
+        try {
+
+            // setIsLoading(true)
+
+            const contract = new ethers.Contract(manager721Address, manager721ABI, provider);
+            console.log("contract", contract);
+            
+            const tx = await contract.getMyContractAddress(0, 1)
+            
+            console.log(tx);
+
+
+       
+         
+        } catch (error) {
+            console.error(error);
+            // alert(error.message)
+            alert("connect Wallet first")
+
+        } finally {
+            // setIsLoading(false)
+        }
+    }
+
+    return (
+        <div>
+            <h1>Settings</h1>
+            <h2>Back up Collections</h2>
+            <Box>
+                <Button onClick={handleExport} variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
+                    Export
+                </Button>
+                <Button component="label" variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
+                    Import
+                    <input onChange={handleImport} type="file" id="file" accept=".json" hidden />
+                </Button>
+            </Box>
+
+            <h2>Enable Testnet</h2>
+            <div>
+                컬렉션 셀렉트에서 테스트넷을 보여줄지 말지 결정합니다.
+            </div>
+            <Box>
+                <Switch defaultChecked />
+            </Box>
+            <Box>
+                <h2>Recovery</h2>
+                <Button variant="outlined" onClick={handleRecovry} >Get Collections I created</Button>
+            </Box>
+
+        </div>
+    )
+}
