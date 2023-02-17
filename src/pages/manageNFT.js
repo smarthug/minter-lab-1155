@@ -75,9 +75,9 @@ export function ManageNFT() {
 
                 // setIsLoading(true)
 
-                const contract721 = new ethers.Contract(contract721Address, contract721ABI, provider);
+                // const contract721 = new ethers.Contract(contract721Address, contract721ABI, provider);
 
-                const tx721 = await contract721.getValues(0, 2)
+                // const tx721 = await contract721.getValues(0, 2)
 
                 const contract1155 = new ethers.Contract(contract1155Address, contract1155ABI, provider);
 
