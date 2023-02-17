@@ -1,0 +1,1 @@
+(self.webpackChunkminter_lab_1155=self.webpackChunkminter_lab_1155||[]).push([[563],{36563:function(){}}]);
