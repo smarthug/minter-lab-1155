@@ -9,7 +9,7 @@ import styledOG from 'styled-components';
 import { styled } from '@mui/material/styles';
 
 // import { Mumbai1155ManagerABI, Mumbai1155ManagerAddress, Mumbai1155ContractABI } from '../1155ManagerContract'
-import { contract721ABI, contract1155ABI, manager1155Address, manager1155ABI } from '../contracts'
+import { contract1155ABI, manager1155Address, manager1155ABI } from '../contracts'
 import {
     Box,
     Button,
@@ -62,9 +62,9 @@ export function ManageNFT() {
     const { data: signer, isError, isLoading } = useSigner()
 
 
-    const { contract721Address, contract1155Address } = useMinterLabStore(state => state.selectedCollection)
+    const { contract721Address } = useMinterLabStore(state => state.selectedCollection)
 
-
+    const contract1155Address = "0xBe29265464064d382724bB4801Dd87528CbB349B"
     const provider = useProvider()
 
     const [nftInfoList, setNftInfoList] = useState([])
@@ -96,12 +96,12 @@ export function ManageNFT() {
                 // const result = tx721[1].slice(0, 1)
                 // setNftInfoList(result)
                 const tmpArray = []
-                for (let index = 0; index < 1; index++) {
+                for (let index = 0; index < 3; index++) {
                     const totalSupply = tx1155[0][index];
                     const price = tx1155[1][index];
                     const tokenURL = tx1155[2][index];
 
-                    tmpArray.push({ maxSupply:totalSupply, price, tokenURL })
+                    tmpArray.push({ maxSupply: totalSupply, price, tokenURL })
                 }
 
                 setNftInfoList(tmpArray)
@@ -123,54 +123,7 @@ export function ManageNFT() {
     }, [])
 
 
-    async function ActivateSelling() {
-        console.log("Activate Selling");
 
-        // 721 에서 요거 호출
-        // function set1155Contract(address _contract1155) public onlyOwner{
-        //     contract1155Bool = true;
-        //     contract1155 = _contract1155;
-        // }
-
-
-
-
-
-
-        try {
-
-            const contract721 = new ethers.Contract(contract721Address, contract721ABI, provider);
-
-            const tx721 = await contract721.getTokenURLbyIndex(0)
-            console.log(tx721);
-
-
-
-            const contract = new ethers.Contract(manager1155Address, manager1155ABI, signer);
-            const contractWithSigner = contract.connect(signer)
-
-            console.log(contractWithSigner);
-
-
-
-            const tx = await contractWithSigner.deployNFTContract(tx721, 1, 10)
-            const rc = await tx.wait()
-
-            console.log(tx);
-            console.log(rc);
-
-            console.log("1155 Contract Address : ", rc.logs[0].address);
-            update1155Address(3, rc.logs[0].address)
-
-        } catch (error) {
-            console.error(error);
-            // alert(error.message)
-            alert("connect Wallet first")
-
-        } finally {
-            // setIsLoading(false)
-        }
-    }
 
 
     return (
@@ -185,7 +138,7 @@ export function ManageNFT() {
             >
                 <h1>Manage NFT</h1>
                 {/* <Switch>ss</Switch> */}
-                <Button variant="contained" onClick={ActivateSelling}>Activate Selling</Button>
+
             </div>
             {contract1155Address !== null ? <NFTInfoCardList nftInfoList={nftInfoList} /> : <h1>Activate Selling First</h1>}
 
@@ -228,7 +181,7 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
 
     const [edit, setEdit] = useState(false);
 
-    const [price, setPrice] = useState(priceProp.toNumber());
+    const [price, setPrice] = useState(ethers.utils.formatUnits(priceProp, 18));
     const [maxSupply, setMaxSupply] = useState(maxSupplyProp.toNumber());
 
     const { contract721Address, contract1155Address } = useMinterLabStore(state => state.selectedCollection)
@@ -297,12 +250,12 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
     async function updatePrice(e) {
         try {
 
-            const contract = new ethers.Contract(contract1155Address,contract1155ABI, signer);
+            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
             const contractWithSigner = contract.connect(signer)
 
             // console.log(account.address);
 
-            const tx = await contractWithSigner.setPrice(+ e.target.value,0)
+            const tx = await contractWithSigner.setPrice(+ e.target.value, 0)
             const rc = await tx.wait()
 
             console.log(tx);
@@ -321,12 +274,12 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
     async function updateMaxSupply(e) {
         try {
 
-            const contract = new ethers.Contract(contract1155Address,contract1155ABI, signer);
+            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
             const contractWithSigner = contract.connect(signer)
 
             // console.log(account.address);
 
-            const tx = await contractWithSigner.setMaxSupply(+e.target.value,0)
+            const tx = await contractWithSigner.setMaxSupply(+e.target.value, 0)
             const rc = await tx.wait()
 
             console.log(tx);
@@ -385,7 +338,7 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
                     {/* <Button size="small" onClick={(e) => setEdit((state) => !state)}>Edit</Button> */}
                     <Button size="small" onClick={updatePrice}>Set Price</Button>
                     <Button size="small" onClick={updateMaxSupply}>Set maxSupply</Button>
-                    
+
                 </CardActions>
             </StyledCard>
 

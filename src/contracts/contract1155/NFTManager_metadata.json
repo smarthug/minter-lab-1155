@@ -129,9 +129,9 @@
 				"name": "getMyContractAddress",
 				"outputs": [
 					{
-						"internalType": "address[1000]",
+						"internalType": "address",
 						"name": "",
-						"type": "address[1000]"
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -281,17 +281,17 @@
 			]
 		},
 		"contracts/NFTContract.sol": {
-			"keccak256": "0x608b9036bfe37814db75f914a1619e293f3ddc5cea2abf4686a5212418f7a1f9",
+			"keccak256": "0xbb0fd14b6d4a748718df43f1e0e6bf53d05236edf88c95c9a1fa528872768ecd",
 			"urls": [
-				"bzz-raw://1aef546e0810b463bf38156d20e3ae17885078dc049fc9c9b20720e628e4ec7f",
-				"dweb:/ipfs/Qmf2keoA2ZmW3ZKVfTiBF21t9o8HzwCv9aRaAjCAoYFKhx"
+				"bzz-raw://efe3380faa9af1cf85e5158353bd84bc9061a660992fc6edc189a87a4667c043",
+				"dweb:/ipfs/QmVjzbCUMYM7xsEsbgdbW77FeN3Ymji9hMqK3EkKeaMxfc"
 			]
 		},
 		"contracts/NFTManager.sol": {
-			"keccak256": "0xbc4153eee3b93e1c8f0cbb349f1d8bb0ff1839c92a46cdde133c6bc7991078c1",
+			"keccak256": "0xbdd4cc51aa0dabf7d9e2f6c7891048bc2df74a195a14ecebae8ae964ae054662",
 			"urls": [
-				"bzz-raw://a5b2a801afaed0ff7b0759f9b0234ddde79d2905e3a27d00edd102d8598e36d0",
-				"dweb:/ipfs/QmXt64SZDVN5Kjm8Et1PauCMEnjuD1eFwMbxWVwHwH4UnA"
+				"bzz-raw://e88a761a6c4acd691bb77fcba8fb3f20d613d20620fd079bc4b29bb06206f37e",
+				"dweb:/ipfs/Qmd9wFNpQn1M6LWGMJcXaAbZ1WttgAkSnEfZezoJEvg4As"
 			]
 		}
 	},
