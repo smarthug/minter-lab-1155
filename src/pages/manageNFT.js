@@ -64,7 +64,9 @@ export function ManageNFT() {
 
     const { contract721Address } = useMinterLabStore(state => state.selectedCollection)
 
-    const contract1155Address = "0xBe29265464064d382724bB4801Dd87528CbB349B"
+    const [contract1155Address, setContract1155Address] = useState(null)
+
+    // const contract1155Address = "0xBe29265464064d382724bB4801Dd87528CbB349B"
     const provider = useProvider()
 
     const [nftInfoList, setNftInfoList] = useState([])
@@ -79,7 +81,16 @@ export function ManageNFT() {
 
                 // const tx721 = await contract721.getValues(0, 2)
 
-                const contract1155 = new ethers.Contract(contract1155Address, contract1155ABI, provider);
+                // const contract = new ethers.Contract(manager1155Address, manager1155ABI, provider);
+                // const contractWithSigner = contract.connect(signer);
+                // console.log(contractWithSigner);
+                
+                // const tmpContract1155Address = await contractWithSigner.getMyContractAddress(0, 100)
+                const tmpContract1155Address = "0x75c3e5E4a309cd7e193F47508A16D1a9Db8C1182"
+                const contract1155 = new ethers.Contract(tmpContract1155Address, contract1155ABI, provider);
+                console.log(tmpContract1155Address);
+                setContract1155Address(tmpContract1155Address)
+
 
                 const tx1155 = await contract1155.getValues(0, 2)
                 console.log(tx1155)
@@ -95,14 +106,18 @@ export function ManageNFT() {
                 // console.log(tx721[1].slice(0, 3));
                 // const result = tx721[1].slice(0, 1)
                 // setNftInfoList(result)
+                //return (IDs, _maxSupply, _totalSupply, _price, _tokenURL);
+                console.log(tx1155[0].toNumber())
                 const tmpArray = []
-                for (let index = 0; index < 3; index++) {
-                    const totalSupply = tx1155[0][index];
-                    const price = tx1155[1][index];
-                    const tokenURL = tx1155[2][index];
+                for (let index = 0; index <= tx1155[0].toNumber(); index++) {
+                    const maxSupply = tx1155[1][index];
+                    const totalSupply = tx1155[2][index];
+                    const price = tx1155[3][index];
+                    const tokenURL = tx1155[4][index];
 
-                    tmpArray.push({ maxSupply: totalSupply, price, tokenURL })
+                    tmpArray.push({  maxSupply,totalSupply, price, tokenURL })
                 }
+
 
                 setNftInfoList(tmpArray)
                 // console.log(tx[0].toNumber());
@@ -137,6 +152,7 @@ export function ManageNFT() {
                 }}
             >
                 <h1>Manage NFT</h1>
+                <h2>{contract1155Address}</h2>
                 {/* <Switch>ss</Switch> */}
 
             </div>
@@ -154,9 +170,9 @@ function NFTInfoCardList({ nftInfoList }) {
     return (
         <ListContainer >
 
-            {nftInfoList.map(({ tokenURL, price, maxSupply }, index) => {
+            {nftInfoList.map(({ tokenURL, price, maxSupply, totalSupply }, index) => {
                 return (
-                    <NFTInfoCard key={index} tokenURL={tokenURL} priceProp={price} maxSupplyProp={maxSupply} />
+                    <NFTInfoCard key={index} tokenURL={tokenURL} priceProp={price} maxSupplyProp={maxSupply}  totalSupplyProp={totalSupply}/>
                 )
             })}
         </ListContainer>
@@ -166,7 +182,7 @@ function NFTInfoCardList({ nftInfoList }) {
 
 
 // data fetch from contract.getTokenURLbyIndex(number)
-function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
+function NFTInfoCard({ tokenURL, totalSupplyProp,priceProp, maxSupplyProp }) {
     const [loading, setLoading] = useState(false);
     const [nftImageCid, setNftImageCid] = useState("");
 
@@ -179,8 +195,10 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
     const account = useAccount()
 
 
+
     const [edit, setEdit] = useState(false);
 
+    const [totalSupply, setTotalSupply] = useState(totalSupplyProp.toNumber());
     const [price, setPrice] = useState(ethers.utils.formatUnits(priceProp, 18));
     const [maxSupply, setMaxSupply] = useState(maxSupplyProp.toNumber());
 
@@ -300,11 +318,11 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
         loading ? <Skeleton variant="rectangular" width={345} height={360} /> :
 
 
-            <StyledCard sx={{ maxWidth: 345, height: 640, backgroundColor: "#212121", }}>
+            <StyledCard sx={{ maxWidth: 345, height:1040,  backgroundColor: "#212121", }}>
                 <CardMedia
                     component="img"
                     alt="green iguana"
-                    // height="320"
+                    height="320"
                     // image={nftImageCid}
                     image={nftImageCid}
                 />
@@ -326,10 +344,12 @@ function NFTInfoCard({ tokenURL, priceProp, maxSupplyProp }) {
                     </Typography>
 
                 </CardContent>
-                <CardContent sx={{ height: 133 }}>
+                <CardContent sx={{ height: 233 }}>
 
                     <div>
+                        
                         <TextField id="outlined-basic" label="Price" variant="outlined" value={price} onChange={(e) => setPrice(e.target.value)} />
+                        <TextField id="outlined-basic" label="Total Supply" variant="outlined" value={totalSupply} disabled />
                         <TextField id="outlined-basic" label="Max Supply" variant="outlined" value={maxSupply} onChange={(e) => setMaxSupply(e.target.value)} />
                     </div>
                 </CardContent>
