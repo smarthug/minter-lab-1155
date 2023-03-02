@@ -2,14 +2,16 @@ import { Button, Switch } from "@mui/material";
 import { Box } from "@mui/system";
 import { getCollections, importCollections } from "../utils/db";
 
-import { manager721Address, manager721ABI } from "../contracts";
-import { useAccount, useProvider } from "wagmi";
+import { manager1155Address, manager1155ABI } from "../contracts";
+import { useAccount, useProvider, useSigner } from "wagmi";
 import { ethers } from "ethers";
 
 export function Settings() {
 
     const account = useAccount();
     const provider = useProvider()
+
+    const { data: signer, isError, isLoading } = useSigner()
 
     function handleExport() {
         getCollections().then((collections) => {
@@ -59,17 +61,26 @@ export function Settings() {
         try {
 
             // setIsLoading(true)
+            // 사이너가 있어야 되네 .... 없으면 , 주소 안오네 ...
 
-            const contract = new ethers.Contract(manager721Address, manager721ABI, provider);
-            console.log("contract", contract);
-            
-            const tx = await contract.getMyContractAddress(0, 1)
-            
-            console.log(tx);
+            const contract = new ethers.Contract(manager1155Address, manager1155ABI, provider);
+            const contractWithSigner = contract.connect(signer);
+            console.log(contractWithSigner);
+
+            const tmpContract1155Address = await contractWithSigner.getMyContractAddress(0, 100)
+
+            console.log(tmpContract1155Address);
+
+            // const contract = new ethers.Contract(manager1155Address, manager1155ABI, signer);
+            // console.log("contract", contract);
+
+            // const tx = await contract.getMyContractAddress(0, 100)
+
+            // console.log(tx);
 
 
-       
-         
+
+
         } catch (error) {
             console.error(error);
             // alert(error.message)

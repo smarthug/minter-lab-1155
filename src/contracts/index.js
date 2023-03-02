@@ -9,8 +9,8 @@ export const contract721ABI = Contract721Contract.output.abi
 export const manager1155ABI = Contract1155Manager.output.abi
 export const contract1155ABI = Contract1155Contract.output.abi
 
-// export const manager721Address = "0x3e51E0C9F92209cb364416d59443780531106f3F"
-export const manager1155Address = "0x17880e990FEd084F27ab5911FCe9DC89Ca909C8a"
+export const manager721Address = "0x3e51E0C9F92209cb364416d59443780531106f3F"
+export const manager1155Address = "0x39f54Ab751A36fbb7fB0Ac56124e1aE38D2F53B3"
 
 
 

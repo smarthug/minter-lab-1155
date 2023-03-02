@@ -269,6 +269,16 @@
 				"name": "getValues",
 				"outputs": [
 					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[1000]",
+						"name": "",
+						"type": "uint256[1000]"
+					},
+					{
 						"internalType": "uint256[1000]",
 						"name": "",
 						"type": "uint256[1000]"
