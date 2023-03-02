@@ -86,13 +86,14 @@ export function ManageNFT() {
                 // console.log(contractWithSigner);
                 
                 // const tmpContract1155Address = await contractWithSigner.getMyContractAddress(0, 100)
+                // 요거를 어떻하기???
                 const tmpContract1155Address = "0x75c3e5E4a309cd7e193F47508A16D1a9Db8C1182"
                 const contract1155 = new ethers.Contract(tmpContract1155Address, contract1155ABI, provider);
                 console.log(tmpContract1155Address);
                 setContract1155Address(tmpContract1155Address)
 
 
-                const tx1155 = await contract1155.getValues(0, 2)
+                const tx1155 = await contract1155.getValues(0, 100)
                 console.log(tx1155)
 
                 // console.log(tx721);
