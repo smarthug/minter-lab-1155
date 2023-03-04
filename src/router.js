@@ -13,10 +13,10 @@ export default function Router() {
             <AppBar />
             <MainContainer>
                 <Routes base>
-                    <Route exact path={`/CreateCollection`} element={<CreateCollection />} />
+                    {/* <Route exact path={`/CreateCollection`} element={<CreateCollection />} /> */}
                     <Route exact path={`/CreateNFT`} element={<CreateNFT />} />
                     <Route exact path={`/ManageNFT`} element={<ManageNFT />} />
-                    <Route path={`/MintingPage/:chainId/:contract721Address`} element={<MintingPage />} />
+                    <Route path={`/MintingPage/:chainId/:contract1155Address`} element={<MintingPage />} />
                     <Route path={`/MintingPage`} element={<MintingPage />} />
                     <Route exact path={`/Settings`} element={<Settings />} />
                     <Route exact path={`/`} element={<About />} />

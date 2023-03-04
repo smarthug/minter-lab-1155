@@ -10,18 +10,28 @@ import SideNav from './SideNav';
 import { useLocation } from 'react-router-dom';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import CollectionSelect from './CollectionSelect';
+import CollectionSelect from './CollectionSelect1155';
 
 const drawerWidth = 240;
 
+// const StateMap = {
+//   'CreateCollection': 0,
+//   'CreateNFT': 1,
+//   'ManageNFT': 2,
+//   'MintingPage': 3,
+//   'Settings': 4,
+//   '': 5,
+// }
+
 const StateMap = {
-  'CreateCollection': 0,
-  'CreateNFT': 1,
-  'ManageNFT': 2,
-  'MintingPage': 3,
-  'Settings': 4,
-  '': 5,
+ 
+  'CreateNFT': 0,
+  'ManageNFT': 1,
+  'MintingPage':2,
+  'Settings': 3,
+  '': 4,
 }
+
 
 export default function ResponsiveDrawer() {
 

@@ -8,6 +8,8 @@ export const useMinterLabStore = create((set) => ({
     setSelectedCollectionId: (selectedCollectionId) => set({ selectedCollectionId }),
     isLoading: false,
     setIsLoading: (isLoading) => set({ isLoading }),
+    contract1155Address:null,
+    setContract1155Address: (contract1155Address) => set({ contract1155Address }),
     // mainnetWeb3: null,
     // setmainnetWeb3: (mainnetWeb3) => set({ mainnetWeb3 }),
     // testnetWeb3: null,

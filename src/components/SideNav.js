@@ -42,7 +42,7 @@ export default function SideNav({ value, handleChange }) {
                 aria-label="Vertical tabs example"
                 sx={{ borderRight: 1, borderColor: "divider" }}
             >
-                <Tab label="Create Collection" to="/CreateCollection" component={NavLink} />
+                {/* <Tab label="Create Collection" to="/CreateCollection" component={NavLink} /> */}
                 <Tab label="Create NFT" to="/CreateNFT" component={NavLink} />
                 <Tab label="Manage NFT" to="/ManageNFT" component={NavLink} />
                 <Tab label="Minting Page" to="/MintingPage" component={NavLink} />

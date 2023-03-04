@@ -9,7 +9,7 @@ import { useSigner } from "wagmi";
 import { ethers } from "ethers";
 import { ipfsUploadImage, ipfsUploadMetadata } from '../utils/ipfsUpload';
 import { useMinterLabStore } from '../hooks';
-import { contract721ABI } from '../contracts';
+import { contract1155ABI } from '../contracts';
 import { Box } from '@mui/system';
 
 import { styled } from '@mui/system';
@@ -244,7 +244,7 @@ export function CreateNFT() {
             console.log("NFT IPFS upload is completed, NFT is stored at : ", tokenURL);
 
 
-            const contract = new ethers.Contract(selectedCollection.contract721Address, contract721ABI, signer);
+            const contract = new ethers.Contract(selectedCollection.contract1155Address, contract1155ABI, signer);
             console.log(contract);
 
             if (signer === undefined) {
@@ -263,7 +263,7 @@ export function CreateNFT() {
 
                 try {
 
-
+                    // 요부분을 수정
                     const contractWithSigner = contract.connect(signer)
 
                     const tx = await contractWithSigner.mintSingle(tokenURL)

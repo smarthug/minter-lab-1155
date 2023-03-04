@@ -13,9 +13,10 @@ import { Box, Typography } from '@mui/material';
 // import { useDynamicSVGImport } from '../hooks';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {  useSelectedCollectionId } from '../hooks';
+import { useMinterLabStore, useSelectedCollectionId } from '../hooks';
 
 import { isChainTestnet, chainName } from "../contracts";
+import { useAccount, useNetwork } from 'wagmi';
 
 // const Logo = chainIconsMap['polygon']
 
@@ -83,16 +84,28 @@ const StyledBox = styled(Box)(({ theme }) => ({
 // 여기서 주스탄드에 있는 collection id 를 받아오게 해서 관리할 수도있음
 export default function NFTSelect() {
     // const selectedCollection = useMinterLabStore(state => state.selectedCollection)
-    const [selectedCollectionId, setSelectedCollectionId]  = useSelectedCollectionId()
+    const [selectedCollectionId, setSelectedCollectionId] = useSelectedCollectionId()
     // const setSelectedCollection = useMinterLabStore(state => state.setSelectedCollection)
 
+    const contract1155Address = useMinterLabStore(state => state.contract1155Address)
+    console.log(contract1155Address);
 
-    const collections = useLiveQuery(getCollections)
+    const { chain } = useNetwork()
+    const chainId = chain?.id
+    console.log(chainId);
+
+    const Logo = chainIconsMap[chainId]
+
+    const account = useAccount()
+
+    // const collections = useLiveQuery(getCollections)
     // console.log(collections);
 
     // 컬렉션 id , 0,1,2,3
-    
+
     // const [collection, setCollection] = React.useState(0);
+
+    const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
     const handleChange = (event) => {
         // setCollection(event.target.value);
@@ -122,69 +135,97 @@ export default function NFTSelect() {
             <Select
                 labelId="nft-collection-select-label"
                 id="nft-collection-select"
-                value={selectedCollectionId}
+                value={0}
                 // onChange={handleChange}
                 label="NFT Collection"
                 sx={{ maxWidth: 683 }}
-                
-                // disabled
+
+            // disabled
             >
                 {/* <div value={0}>
                     Please select a collection
                 </div> */}
-                {collections && collections.map((collection) => (
+                {/* {collections && collections.map((collection) => (
                     <StyledMenuItem key={collection.id} value={collection.id} >
 
                         <CollectionItem collection={collection} />
                     </StyledMenuItem>
-                ))}
+                ))} */}
+
+                <StyledMenuItem key={0} value={0} >
+
+                    <StyledBox sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+
+                        {contract1155Address === null ?
+                            <div>
+                                <Typography variant="body1" display="inline">
+                                    You have not created a NFT with address : {account.address} ,a collection will be created once you create your first 1155 NFT
+                                </Typography>
+                            </div>
+                            :
+                            <>
+
+                                <Logo />
+                                <Box >
+                                    <Typography variant="body1" display="inline">
+                                        {/* {chain.toUpperCase()} */}
+                                        {chainName[chainId]}
+                                    </Typography>
+                                </Box>
+
+                                <Chip className="chip" label={isChainTestnet[chainId] ? "testnet" : "mainnet"} size={"small"} variant={'outlined'} color={isChainTestnet[chainId] ? "primary" : "success"} />
+
+
+                                {matches &&
+                                    <Box>
+                                        <Typography variant="caption" display="inline">
+                                            {contract1155Address}
+                                        </Typography>
+                                    </Box>
+                                }
+                            </>
+                        }
+
+                    </StyledBox>
+                </StyledMenuItem>
+
             </Select>
         </FormControl>
     );
 }
 
 
-function CollectionItem({ collection }) {
-    // const Logo = chainIconsMap[collection.chain]
-    const Logo = chainIconsMap[collection.chainId]
+// function CollectionItem({ collection }) {
+//     // const Logo = chainIconsMap[collection.chain]
+//     const Logo = chainIconsMap[collection.chainId]
 
-    const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+//     const matches = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
-    return (
+//     return (
 
-        <StyledBox sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+//         <StyledBox sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 
-            <Logo />
-            <Box >
-                <Typography variant="body1" display="inline">
-                    {/* {collection.chain.toUpperCase()} */}
-                    {chainName[collection.chainId]}
-                </Typography>
-            </Box>
+//             <Logo />
+//             <Box >
+//                 <Typography variant="body1" display="inline">
+//                     {/* {collection.chain.toUpperCase()} */}
+//                     {chainName[collection.chainId]}
+//                 </Typography>
+//             </Box>
 
-            <Chip className="chip" label={ isChainTestnet[collection.chainId] ? "testnet" : "mainnet"} size={"small"} variant={'outlined'} color={isChainTestnet[collection.chainId] ? "primary" : "success"} />
-            <Box>
-                <Typography variant="body1" display="inline">
-                    {collection.collectionSymbol}
-                </Typography>
-            </Box>
+//             <Chip className="chip" label={isChainTestnet[collection.chainId] ? "testnet" : "mainnet"} size={"small"} variant={'outlined'} color={isChainTestnet[collection.chainId] ? "primary" : "success"} />
 
-            <Box>
-                <Typography variant="caption" display="inline">
-                    {collection.collectionName}
-                </Typography>
-            </Box>
 
-            {matches &&
-                <Box>
-                    <Typography variant="caption" display="inline">
-                        {collection.contract721Address}
-                    </Typography>
-                </Box>}
-        </StyledBox>
+//             {matches &&
+//                 <Box>
+//                     <Typography variant="caption" display="inline">
+//                         {collection.contract721Address}
+//                     </Typography>
+//                 </Box>}
+//         </StyledBox>
 
-    )
-}
+//     )
+// }
 
 
 
