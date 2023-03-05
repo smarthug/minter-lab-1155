@@ -62,11 +62,13 @@ export function MintingPage() {
 
 
     const { chainId, contract1155Address } = useParams()
+    console.log(chainId)
+    console.log(contract1155Address)
 
     return (
         <div>
 
-            {contract1155Address ? <Buyer /> : <Seller />}
+            {contract1155Address ? <Buyer contract1155Address={contract1155Address} chainId={chainId} /> : <Seller />}
 
 
 
@@ -117,7 +119,7 @@ function Seller() {
 // 없으면 , 소유자용 민팅 페이지 , 필요한지 의문?
 
 
-function Buyer() {
+function Buyer({ contract1155Address, chainId}) {
     // 소비자용 민팅 페이지
     // contract1155Address 가 있어야함
 
@@ -125,8 +127,9 @@ function Buyer() {
     // console.log(chainId)
     // console.log(contract1155Address)
     // 이것도 , 처음에 로드할때 , 불러오는걸로 하자 ...
-    const chainId = 80001;
-    const contract1155Address = useMinterLabStore(state => state.contract1155Address);
+    // const chainId = 80001;
+    // const contract1155Address = useMinterLabStore(state => state.contract1155Address);
+    // const contract1155Address = useMinterLabStore(state => state.contract1155Address);
 
     const account = useAccount()
 
@@ -154,26 +157,26 @@ function Buyer() {
     const setIsLoading = useMinterLabStore(state => state.setIsLoading)
 
 
-    async function checkChain() {
-        if (Number(chainId) !== userWalletChainId) {
+    // async function checkChain() {
+    //     if (Number(chainId) !== userWalletChainId) {
 
-            console.log("switchNetworkAsync", switchNetworkAsync);
-            // switchNetwork?.(+chainId)
+    //         console.log("switchNetworkAsync", switchNetworkAsync);
+    //         // switchNetwork?.(+chainId)
 
-            // switchNetwork?.(+chainId)
+    //         // switchNetwork?.(+chainId)
 
-            if (switchNetworkAsync) {
-                return switchNetworkAsync(+chainId)
+    //         if (switchNetworkAsync) {
+    //             return switchNetworkAsync(+chainId)
 
-            } else {
-                alert("Please get metamask extension.")
-                return false;
-            }
-        } else {
-            mint();
-        }
+    //         } else {
+    //             alert("Please get metamask extension.")
+    //             return false;
+    //         }
+    //     } else {
+    //         mint();
+    //     }
 
-    }
+    // }
 
     async function mint() {
         console.log("mint");
@@ -219,7 +222,7 @@ function Buyer() {
             navigator.share({
                 title: "Minter Lab",
                 text: "Mint your NFT",
-                url: `http://smarthug.github.io/minter-lab-1155/#/MintingPage/${chainId}/${contract1155Address}`
+                url: `https://smarthug.github.io/minter-lab-1155/#/MintingPage/${chainId}/${contract1155Address}`
             }).then(() => { console.log("share success") }).catch((err) => { console.log(err); })
         }
     }
@@ -269,7 +272,7 @@ function Buyer() {
 
             <Button variant="contained" target="_blank" href={`https://${isChainTestnet[chainId] ? "testnets." : ""}opensea.io/assets?search[query]=${contract1155Address}`} >Check on Opensea</Button>
 
-            <ManageNFT />
+            <ManageNFT chainId={chainId} contract1155Address={contract1155Address} />
         </div>
     )
 }
@@ -299,7 +302,7 @@ function Buyer() {
 //     )
 // }
 
-function ManageNFT() {
+function ManageNFT({ chainId, contract1155Address }) {
 
     const { data: signer, isError, isLoading } = useSigner()
 
@@ -309,7 +312,7 @@ function ManageNFT() {
     // const [contract1155Address, setContract1155Address] = useState(null)
 
     // const contract1155Address = "0xBe29265464064d382724bB4801Dd87528CbB349B"
-    const contract1155Address = useMinterLabStore(state => state.contract1155Address)
+    // const contract1155Address = useMinterLabStore(state => state.contract1155Address)
     const provider = useProvider()
 
     const [nftInfoList, setNftInfoList] = useState([])
@@ -317,9 +320,9 @@ function ManageNFT() {
     useEffect(() => {
         async function FetchAllNFTInfo() {
             try {
-
-
-                const contract1155 = new ethers.Contract(contract1155Address, contract1155ABI, provider);
+                console.log("wtf ffffffffffffff")
+                console.log(contract1155Address)
+                const contract1155 = new ethers.Contract(`${contract1155Address}`, contract1155ABI, provider);
 
 
 
@@ -375,7 +378,7 @@ function ManageNFT() {
 
 
             </div>
-            {contract1155Address !== null ? <NFTInfoCardList nftInfoList={nftInfoList} /> : <h1>Create Your First NFT </h1>}
+            {contract1155Address !== null ? <NFTInfoCardList nftInfoList={nftInfoList} contract1155Address={contract1155Address} chainId={chainId} /> : <h1>Create Your First NFT </h1>}
 
         </div>
 
@@ -383,7 +386,7 @@ function ManageNFT() {
     )
 }
 
-function NFTInfoCardList({ nftInfoList }) {
+function NFTInfoCardList({ nftInfoList, contract1155Address, chainId }) {
     console.log(nftInfoList);
 
     return (
@@ -391,7 +394,7 @@ function NFTInfoCardList({ nftInfoList }) {
 
             {nftInfoList.map(({ tokenURL, price, maxSupply, totalSupply }, index) => {
                 return (
-                    <NFTInfoCard key={index} tokenId={index} tokenURL={tokenURL} priceProp={price} maxSupplyProp={maxSupply} totalSupplyProp={totalSupply} />
+                    <NFTInfoCard key={index} tokenId={index} tokenURL={tokenURL} priceProp={price} maxSupplyProp={maxSupply} totalSupplyProp={totalSupply} contract1155Address={contract1155Address} chainId={chainId} />
                 )
             })}
         </ListContainer>
@@ -401,7 +404,7 @@ function NFTInfoCardList({ nftInfoList }) {
 
 
 // data fetch from contract.getTokenURLbyIndex(number)
-function NFTInfoCard({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyProp }) {
+function NFTInfoCard({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyProp, contract1155Address, chainId }) {
     const [loading, setLoading] = useState(false);
     const [nftImageCid, setNftImageCid] = useState("");
 
@@ -420,7 +423,10 @@ function NFTInfoCard({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyP
     const [price, setPrice] = useState(ethers.utils.formatUnits(priceProp, 18));
     const [maxSupply, setMaxSupply] = useState(maxSupplyProp.toNumber());
 
-    const contract1155Address = useMinterLabStore(state => state.contract1155Address)
+    // const contract1155Address = useMinterLabStore(state => state.contract1155Address)
+
+
+    const account = useAccount()
 
 
 
@@ -458,85 +464,41 @@ function NFTInfoCard({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyP
 
     async function mint() {
         console.log("mint this nft ", tokenId)
-        // try {
-
-
-
-        //     const contract = new ethers.Contract(tmp1155ContractAddress, Mumbai1155ContractABI, signer);
-        //     const contractWithSigner = contract.connect(signer)
-
-        //     console.log(account.address);
-
-        //     const tx = await contractWithSigner.mintSingle(account.address, 1, 1)
-        //     const rc = await tx.wait()
-
-        //     console.log(tx);
-        //     console.log(rc);
-
-        //     // console.log("1155 Contract Address : ",rc.logs[0].address);
-        // } catch (error) {
-        //     console.error(error);
-        //     // alert(error.message)
-        //     alert("connect Wallet first")
-
-        // } finally {
-        //     // setIsLoading(false)
-        // }
-    }
-
-    async function updatePrice() {
-        console.log("updatePrice", price);
         try {
 
+
+
             const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
+            // const contract = new ethers.Contract(contract1155Address, [
+            //     'function IDs() public view returns (uint256)',
+            //     ...contract1155ABI
+            // ], signer);
             const contractWithSigner = contract.connect(signer)
 
+            // const tx = await contractWithSigner.IDs()
+
+            // console.log(tx.toNumber())
             // console.log(account.address);
 
-            // const tx = await contractWithSigner.getValues(0,100)
-            // console.log(tx)
-            // console.log(tx[0].toNumber())
-
-            const tx = await contractWithSigner.setPrice(ethers.utils.parseUnits(`${price}`, 18), tokenId)
+            const tx = await contractWithSigner.mintSingle(account.address, tokenId, 1 , { value: ethers.utils.parseEther(price,18)})
+           
             const rc = await tx.wait()
 
             console.log(tx);
             console.log(rc);
 
-
+            console.log("1155 Contract Address : ",rc.logs[0].address);
         } catch (error) {
             console.error(error);
             // alert(error.message)
+            alert("connect Wallet first")
 
         } finally {
-
+            // setIsLoading(false)
         }
     }
 
-    async function updateMaxSupply() {
-        try {
-
-            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
-            const contractWithSigner = contract.connect(signer)
-
-            // console.log(account.address);
-
-            const tx = await contractWithSigner.setMaxSupply(maxSupply, tokenId)
-            const rc = await tx.wait()
-
-            console.log(tx);
-            console.log(rc);
-
-
-        } catch (error) {
-            console.error(error);
-            // alert(error.message)
-
-        } finally {
-
-        }
-    }
-
+   
     return (
 
         loading ? <Skeleton variant="rectangular" width={345} height={360} /> :

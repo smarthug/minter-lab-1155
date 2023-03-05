@@ -9,7 +9,7 @@ import { useSigner } from "wagmi";
 import { ethers } from "ethers";
 import { ipfsUploadImage, ipfsUploadMetadata } from '../utils/ipfsUpload';
 import { useMinterLabStore } from '../hooks';
-import { contract1155ABI } from '../contracts';
+import { contract1155ABI, manager1155ABI, manager1155Address } from '../contracts';
 import { Box } from '@mui/system';
 
 import { styled } from '@mui/system';
@@ -245,8 +245,7 @@ export function CreateNFT() {
             console.log("NFT IPFS upload is completed, NFT is stored at : ", tokenURL);
 
 
-            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
-            console.log(contract);
+           
 
             if (signer === undefined) {
                 alert("Please connect your wallet");
@@ -266,32 +265,50 @@ export function CreateNFT() {
                 try {
 
                     // 요부분을 수정
-                    const contractWithSigner = contract.connect(signer)
+               
 
                     // 걍 getter 로 가져올수 있나 , 현재 ids 를?
                     // 만약 IDs 를 가져왔는데 0 이면 , contract deploy 하게함 
-                    // if(IDs === 0){
-                    //     // contract deploy
-                    // } else {
-                    //     // set new sale.
-                    // }
+                    // const IDs = await contractWithSigner.IDs()
+                    // console.log("IDs", IDs)
+                    if(contract1155Address === "0x0000000000000000000000000000000000000000"){
+                        // contract deploy
+
+                        console.log("contract deploy")
+                        const manager1155 = new ethers.Contract(manager1155Address, manager1155ABI, signer);
+
+                        const contractWithSigner = manager1155.connect(signer)
+
+                        const tx = await contractWithSigner.deployNFTContract(tokenURL, ethers.utils.parseUnits(price, 18), +maxSupply)
+                        const rc = await tx.wait()
+
+                        console.log(tx);
+                        console.log(rc);
+                    } else {
+                        // set new sale.
+
+                        const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
+                        console.log(contract);
+                        const contractWithSigner = contract.connect(signer)
+
+                        const tx1155 = await contractWithSigner.getValues(0, 100)
+                        console.log(tx1155)
+                        const newTokenId = tx1155[0].toNumber() + 1
+    
+                        // const tx = await contractWithSigner.mintSingle(tokenURL)
+                        const tx = await contractWithSigner.setNewSale(newTokenId, ethers.utils.parseUnits(price, 18), +maxSupply, tokenURL)
+    
+                        const rc = await tx.wait()
+    
+    
+                        // alert("Your NFT is successfully minted!");
+    
+                        console.log(tx);
+    
+                        console.log(rc);
+                    }
 
 
-                    const tx1155 = await contractWithSigner.getValues(0, 100)
-                    console.log(tx1155)
-                    const newTokenId = tx1155[0].toNumber() + 1
-
-                    // const tx = await contractWithSigner.mintSingle(tokenURL)
-                    const tx = await contractWithSigner.setNewSale(newTokenId, ethers.utils.parseUnits(price, 18), +maxSupply, tokenURL)
-
-                    const rc = await tx.wait()
-
-
-                    // alert("Your NFT is successfully minted!");
-
-                    console.log(tx);
-
-                    console.log(rc);
                 } catch (error) {
                     setIsLoading(false);
                 }

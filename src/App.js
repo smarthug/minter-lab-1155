@@ -56,11 +56,21 @@ const Router = lazy(() => getContract1155Address()
     console.log(address);
 
     if (/^0x[a-fA-F0-9]{40}$/.test(address)) {
+      // 0x0000000000000000000000000000000000000000
+      // 이것도 valid address로 인식함
 
-      console.log("address is valid")
-      useMinterLabStore.setState({
-        contract1155Address: address,
-      })
+      if (address === "0x0000000000000000000000000000000000000000") {
+        console.log("you have not created contract1155 yet")
+        useMinterLabStore.setState({
+          contract1155Address: address,
+        })
+      } else {
+
+        console.log("address is valid")
+        useMinterLabStore.setState({
+          contract1155Address: address,
+        })
+      }
     }
 
     return import('./router')
