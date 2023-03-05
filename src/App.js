@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import darkTheme from './utils/theme';
 import { Box } from '@mui/material';
 import { useMinterLabStore } from './hooks';
-
+import { getAccount } from '@wagmi/core'
 
 import { contract1155ABI, manager1155Address, manager1155ABI } from './contracts'
 import { ethers } from 'ethers';
@@ -26,8 +26,10 @@ const signer = provider.getSigner()
 
 async function getContract1155Address() {
   try {
-
-    if (signer._address === null) {
+    const account = getAccount()
+    console.log(account);
+    console.log(signer);
+    if (account.isConnected === false) {
       alert("Please connect wallet")
       return null
     } else {
@@ -37,7 +39,7 @@ async function getContract1155Address() {
 
 
       // return manager1155
-      return await contractWithSigner.getMyContractAddress(0, 100)
+      return contractWithSigner.getMyContractAddress(0, 100)
     }
   } catch (error) {
     console.log(error);

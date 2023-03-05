@@ -64,9 +64,10 @@ export function ManageNFT() {
 
    
 
-    const [contract1155Address, setContract1155Address] = useState(null)
+    // const [contract1155Address, setContract1155Address] = useState(null)
 
     // const contract1155Address = "0xBe29265464064d382724bB4801Dd87528CbB349B"
+    const contract1155Address = useMinterLabStore(state => state.contract1155Address)
     const provider = useProvider()
 
     const [nftInfoList, setNftInfoList] = useState([])
@@ -87,10 +88,10 @@ export function ManageNFT() {
                 
                 // const tmpContract1155Address = await contractWithSigner.getMyContractAddress(0, 100)
                 // 요거를 어떻하기???
-                const tmpContract1155Address = "0x75c3e5E4a309cd7e193F47508A16D1a9Db8C1182"
-                const contract1155 = new ethers.Contract(tmpContract1155Address, contract1155ABI, provider);
-                console.log(tmpContract1155Address);
-                setContract1155Address(tmpContract1155Address)
+                // const tmpContract1155Address = "0x75c3e5E4a309cd7e193F47508A16D1a9Db8C1182"
+                const contract1155 = new ethers.Contract(contract1155Address, contract1155ABI, provider);
+                
+
 
 
                 const tx1155 = await contract1155.getValues(0, 100)
@@ -266,7 +267,8 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
         // }
     }
 
-    async function updatePrice(e) {
+    async function updatePrice() {
+        console.log("updatePrice", price);
         try {
 
             const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
@@ -274,7 +276,11 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
 
             // console.log(account.address);
 
-            const tx = await contractWithSigner.setPrice(ethers.utils.parseUnits(`${e.target.value}`, 18) , tokenId)
+            // const tx = await contractWithSigner.getValues(0,100)
+            // console.log(tx)
+            // console.log(tx[0].toNumber())
+
+            const tx = await contractWithSigner.setPrice(ethers.utils.parseUnits(`${price}`, 18) , tokenId)
             const rc = await tx.wait()
 
             console.log(tx);
@@ -290,7 +296,7 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
         }
     }
 
-    async function updateMaxSupply(e) {
+    async function updateMaxSupply() {
         try {
 
             const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
@@ -298,7 +304,7 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
 
             // console.log(account.address);
 
-            const tx = await contractWithSigner.setMaxSupply(+e.target.value, tokenId)
+            const tx = await contractWithSigner.setMaxSupply(maxSupply, tokenId)
             const rc = await tx.wait()
 
             console.log(tx);
