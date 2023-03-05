@@ -4,12 +4,10 @@ import { ethers } from 'ethers';
 import { useAccount, useProvider, useSigner } from 'wagmi';
 import axios from 'axios';
 
-import styledOG from 'styled-components';
 
 import { styled } from '@mui/material/styles';
 
-// import { Mumbai1155ManagerABI, Mumbai1155ManagerAddress, Mumbai1155ContractABI } from '../1155ManagerContract'
-import { contract1155ABI, manager1155Address, manager1155ABI } from '../contracts'
+import { contract1155ABI } from '../contracts'
 import {
     Box,
     Button,
@@ -23,7 +21,7 @@ import {
     Grow,
     TextField,
 } from '@mui/material';
-import { update1155Address } from '../utils/db';
+
 
 const ListContainer = styled(Box)`
   display: flex;
@@ -76,19 +74,7 @@ export function ManageNFT() {
         async function FetchAllNFTInfo() {
             try {
 
-                // setIsLoading(true)
-
-                // const contract721 = new ethers.Contract(contract721Address, contract721ABI, provider);
-
-                // const tx721 = await contract721.getValues(0, 2)
-
-                // const contract = new ethers.Contract(manager1155Address, manager1155ABI, provider);
-                // const contractWithSigner = contract.connect(signer);
-                // console.log(contractWithSigner);
-                
-                // const tmpContract1155Address = await contractWithSigner.getMyContractAddress(0, 100)
-                // 요거를 어떻하기???
-                // const tmpContract1155Address = "0x75c3e5E4a309cd7e193F47508A16D1a9Db8C1182"
+           
                 const contract1155 = new ethers.Contract(contract1155Address, contract1155ABI, provider);
                 
 
@@ -97,18 +83,7 @@ export function ManageNFT() {
                 const tx1155 = await contract1155.getValues(0, 100)
                 console.log(tx1155)
 
-                // console.log(tx721);
-                // console.log(tx721[0].toNumber());
-                // console.log(tx721[1].slice(0, 3));
-                // const result = tx721[1].slice(0, 1)
-                // setNftInfoList(result)
-
-                // console.log(tx1155);
-                // console.log(tx721[0].toNumber());
-                // console.log(tx721[1].slice(0, 3));
-                // const result = tx721[1].slice(0, 1)
-                // setNftInfoList(result)
-                //return (IDs, _maxSupply, _totalSupply, _price, _tokenURL);
+         
                 console.log(tx1155[0].toNumber())
                 const tmpArray = []
                 for (let index = 0; index <= tx1155[0].toNumber(); index++) {
@@ -122,9 +97,7 @@ export function ManageNFT() {
 
 
                 setNftInfoList(tmpArray)
-                // console.log(tx[0].toNumber());
-                // console.log(tx[1][0].toNumber());
-                // console.log(rc);
+            
             } catch (error) {
                 console.error(error);
                 // alert(error.message)
@@ -137,7 +110,7 @@ export function ManageNFT() {
 
 
         FetchAllNFTInfo()
-    }, [])
+    }, [provider, contract1155Address])
 
 
 
@@ -155,7 +128,7 @@ export function ManageNFT() {
             >
                 <h1>Manage NFT</h1>
                 <h2>{contract1155Address}</h2>
-                {/* <Switch>ss</Switch> */}
+               
 
             </div>
             {contract1155Address !== null ? <NFTInfoCardList nftInfoList={nftInfoList} /> : <h1>Create Your First NFT </h1>}
@@ -194,11 +167,10 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
 
     const { data: signer, isError, isLoading } = useSigner()
 
-    const account = useAccount()
 
 
 
-    const [edit, setEdit] = useState(false);
+
 
     const [totalSupply, setTotalSupply] = useState(totalSupplyProp.toNumber());
     const [price, setPrice] = useState(ethers.utils.formatUnits(priceProp, 18));
@@ -334,15 +306,7 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
                     image={nftImageCid}
                 />
                 <CardContent sx={{ height: 133 }}>
-                    {/* {edit &&
-                    
-                    } */}
-                    {/* <Grow in={edit}>
-                        <div>
-                            <TextField id="outlined-basic" label="Price" variant="outlined" value={price} onChange={(e) => setPrice(e.target.value)} />
-                            <TextField id="outlined-basic" label="Max Supply" variant="outlined" value={maxSupply} onChange={(e) => setMaxSupply(e.target.value)} />
-                        </div>
-                    </Grow> */}
+                  
                     <Typography gutterBottom variant="h5" component="div">
                         {name}
                     </Typography>
@@ -361,26 +325,17 @@ function NFTInfoCard({ tokenId,tokenURL, totalSupplyProp,priceProp, maxSupplyPro
                     </div>
                 </CardContent>
                 <CardActions>
-                    {/* <Button size="small" onClick={mint}>Sell</Button> */}
-                    {/* <Button size="small" onClick={(e) => setEdit((state) => !state)}>Edit</Button> */}
                     <Button size="small" onClick={updatePrice}>Set Price</Button>
                     <Button size="small" onClick={updateMaxSupply}>Set maxSupply</Button>
 
                 </CardActions>
             </StyledCard>
 
-        // <NFTCard imageUrl={nftImageCid} title={name} description={description} />
+     
 
 
     );
 }
-
-// skeleton for NFT info card
-// function NFTInfoCardSkeleton() {
-
-
-// }
-
 
 
 
