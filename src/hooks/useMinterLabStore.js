@@ -2,10 +2,10 @@ import { create } from 'zustand'
 
 export const useMinterLabStore = create((set) => ({
     // selectedCollection: getCollections().find((collection) => collection.id === localStorage.getItem('selectedCollectionId')) ?? null,
-    selectedCollection: null,
-    setSelectedCollection: (selectedCollection) => set({ selectedCollection }),
-    selectedCollectionId: +localStorage.getItem('selectedCollectionId') ?? null,
-    setSelectedCollectionId: (selectedCollectionId) => set({ selectedCollectionId }),
+    // selectedCollection: null,
+    // setSelectedCollection: (selectedCollection) => set({ selectedCollection }),
+    // selectedCollectionId: +localStorage.getItem('selectedCollectionId') ?? null,
+    // setSelectedCollectionId: (selectedCollectionId) => set({ selectedCollectionId }),
     isLoading: false,
     setIsLoading: (isLoading) => set({ isLoading }),
     contract1155Address:null,
