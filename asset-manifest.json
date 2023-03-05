@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/minter-lab-1155/static/css/main.e366cd3c.css",
-    "main.js": "/minter-lab-1155/static/js/main.7c3c506d.js",
-    "static/js/303.0eab17bc.chunk.js": "/minter-lab-1155/static/js/303.0eab17bc.chunk.js",
+    "main.js": "/minter-lab-1155/static/js/main.071bba5a.js",
+    "static/js/268.3207f34a.chunk.js": "/minter-lab-1155/static/js/268.3207f34a.chunk.js",
     "static/js/265.086ef242.chunk.js": "/minter-lab-1155/static/js/265.086ef242.chunk.js",
     "static/js/842.6afe9687.chunk.js": "/minter-lab-1155/static/js/842.6afe9687.chunk.js",
     "static/js/137.33718223.chunk.js": "/minter-lab-1155/static/js/137.33718223.chunk.js",
@@ -41,14 +41,14 @@
     "static/js/778.78055ec5.chunk.js": "/minter-lab-1155/static/js/778.78055ec5.chunk.js",
     "static/js/202.6fb20200.chunk.js": "/minter-lab-1155/static/js/202.6fb20200.chunk.js",
     "static/js/647.73d645c3.chunk.js": "/minter-lab-1155/static/js/647.73d645c3.chunk.js",
-    "static/js/666.ca35de82.chunk.js": "/minter-lab-1155/static/js/666.ca35de82.chunk.js",
     "static/js/419.086677eb.chunk.js": "/minter-lab-1155/static/js/419.086677eb.chunk.js",
+    "static/js/620.731ffbd6.chunk.js": "/minter-lab-1155/static/js/620.731ffbd6.chunk.js",
     "static/js/310.2a2f2c79.chunk.js": "/minter-lab-1155/static/js/310.2a2f2c79.chunk.js",
     "static/js/252.70b64322.chunk.js": "/minter-lab-1155/static/js/252.70b64322.chunk.js",
     "index.html": "/minter-lab-1155/index.html",
     "main.e366cd3c.css.map": "/minter-lab-1155/static/css/main.e366cd3c.css.map",
-    "main.7c3c506d.js.map": "/minter-lab-1155/static/js/main.7c3c506d.js.map",
-    "303.0eab17bc.chunk.js.map": "/minter-lab-1155/static/js/303.0eab17bc.chunk.js.map",
+    "main.071bba5a.js.map": "/minter-lab-1155/static/js/main.071bba5a.js.map",
+    "268.3207f34a.chunk.js.map": "/minter-lab-1155/static/js/268.3207f34a.chunk.js.map",
     "265.086ef242.chunk.js.map": "/minter-lab-1155/static/js/265.086ef242.chunk.js.map",
     "842.6afe9687.chunk.js.map": "/minter-lab-1155/static/js/842.6afe9687.chunk.js.map",
     "137.33718223.chunk.js.map": "/minter-lab-1155/static/js/137.33718223.chunk.js.map",
@@ -84,13 +84,13 @@
     "778.78055ec5.chunk.js.map": "/minter-lab-1155/static/js/778.78055ec5.chunk.js.map",
     "202.6fb20200.chunk.js.map": "/minter-lab-1155/static/js/202.6fb20200.chunk.js.map",
     "647.73d645c3.chunk.js.map": "/minter-lab-1155/static/js/647.73d645c3.chunk.js.map",
-    "666.ca35de82.chunk.js.map": "/minter-lab-1155/static/js/666.ca35de82.chunk.js.map",
     "419.086677eb.chunk.js.map": "/minter-lab-1155/static/js/419.086677eb.chunk.js.map",
+    "620.731ffbd6.chunk.js.map": "/minter-lab-1155/static/js/620.731ffbd6.chunk.js.map",
     "310.2a2f2c79.chunk.js.map": "/minter-lab-1155/static/js/310.2a2f2c79.chunk.js.map",
     "252.70b64322.chunk.js.map": "/minter-lab-1155/static/js/252.70b64322.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e366cd3c.css",
-    "static/js/main.7c3c506d.js"
+    "static/js/main.071bba5a.js"
   ]
 }
