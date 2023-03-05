@@ -457,6 +457,7 @@ function NFTInfoCard({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyP
 
 
     async function mint() {
+        console.log("mint this nft ", tokenId)
         // try {
 
 
