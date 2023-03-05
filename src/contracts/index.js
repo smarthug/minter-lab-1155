@@ -1,16 +1,16 @@
-import Contract721Manager from './contract721/NFTManager_metadata.json'
-import Contract721Contract from './contract721/NFTContract_metadata.json'
+// import Contract721Manager from './contract721/NFTManager_metadata.json'
+// import Contract721Contract from './contract721/NFTContract_metadata.json'
 import Contract1155Manager from './contract1155/NFTManager_metadata.json'
 import Contract1155Contract from './contract1155/NFTContract_metadata.json'
 
 
-export const manager721ABI = Contract721Manager.output.abi
-export const contract721ABI = Contract721Contract.output.abi
+// export const manager721ABI = Contract721Manager.output.abi
+// export const contract721ABI = Contract721Contract.output.abi
 export const manager1155ABI = Contract1155Manager.output.abi
 export const contract1155ABI = Contract1155Contract.output.abi
 
-export const manager721Address = "0x3e51E0C9F92209cb364416d59443780531106f3F"
-export const manager1155Address = "0x39f54Ab751A36fbb7fB0Ac56124e1aE38D2F53B3"
+// export const manager721Address = "0x3e51E0C9F92209cb364416d59443780531106f3F"
+export const manager1155Address = "0xc730a979e940EA3Dc967D23813ce2F62F46D7524"
 
 
 

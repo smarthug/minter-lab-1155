@@ -74,6 +74,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Paused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "operator",
@@ -161,6 +174,19 @@
 					}
 				],
 				"name": "URI",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Unpaused",
 				"type": "event"
 			},
 			{
@@ -634,7 +660,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "totalSupplies",
+				"name": "totalSupply",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -653,7 +679,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "totalSupply",
+				"name": "totalSupplyById",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -718,6 +744,9 @@
 				},
 				"owner()": {
 					"details": "Returns the address of the current owner."
+				},
+				"paused()": {
+					"details": "Returns true if the contract is paused, and false otherwise."
 				},
 				"renounceOwnership()": {
 					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
@@ -859,10 +888,10 @@
 			]
 		},
 		"contracts/NFTContract.sol": {
-			"keccak256": "0x0dca9e0558fb7da954a7ff7af1c3fec5db504f83c182147de9bd6ff3b104627d",
+			"keccak256": "0x6f48436901a47c64bc7a8751e20f683f9427f89f760ec975ab2fc9b46f022c09",
 			"urls": [
-				"bzz-raw://4ca64e1418db6f6f9b3d5afe072765a2f28e9517f3edb3d731923e21291e8e07",
-				"dweb:/ipfs/QmXkwkSLgEyTvWbKLxDZdmUDBZiYizY42FEj1nAkhi9ruu"
+				"bzz-raw://c2d7e4d085bf6e11cca4f5dd81c72f699fbc92639779fa962f9523a050ac3b2a",
+				"dweb:/ipfs/QmVmapkowNDDTvE3j2frxuCTfTktHRxjUdA4BDCWdz68Xu"
 			]
 		}
 	},

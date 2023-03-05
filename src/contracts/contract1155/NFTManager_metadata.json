@@ -281,10 +281,10 @@
 			]
 		},
 		"contracts/NFTContract.sol": {
-			"keccak256": "0xbb0fd14b6d4a748718df43f1e0e6bf53d05236edf88c95c9a1fa528872768ecd",
+			"keccak256": "0x6f48436901a47c64bc7a8751e20f683f9427f89f760ec975ab2fc9b46f022c09",
 			"urls": [
-				"bzz-raw://efe3380faa9af1cf85e5158353bd84bc9061a660992fc6edc189a87a4667c043",
-				"dweb:/ipfs/QmVjzbCUMYM7xsEsbgdbW77FeN3Ymji9hMqK3EkKeaMxfc"
+				"bzz-raw://c2d7e4d085bf6e11cca4f5dd81c72f699fbc92639779fa962f9523a050ac3b2a",
+				"dweb:/ipfs/QmVmapkowNDDTvE3j2frxuCTfTktHRxjUdA4BDCWdz68Xu"
 			]
 		},
 		"contracts/NFTManager.sol": {

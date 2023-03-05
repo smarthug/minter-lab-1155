@@ -127,7 +127,7 @@ export default function NFTSelect() {
 
                     <StyledBox sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 
-                        {contract1155Address === null ?
+                        {contract1155Address === "0x0000000000000000000000000000000000000000" ?
                             <div>
                                 <Typography variant="body1" display="inline">
                                     You have not created a NFT with address : {account.address} ,a collection will be created once you create your first 1155 NFT
