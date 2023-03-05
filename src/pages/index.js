@@ -1,6 +1,6 @@
-export { CreateCollection } from "./createCollection";
+// export { CreateCollection } from "./createCollection";
 export { ManageNFT } from "./manageNFT";
-export { CreateNFT } from "./createNFT";
+export { CreateNFT } from "./create1155NFT";
 export { MintingPage } from "./mintingPage";
 export { Settings } from "./settings";
 export { About } from "./about";

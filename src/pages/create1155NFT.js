@@ -9,7 +9,7 @@ import { useSigner } from "wagmi";
 import { ethers } from "ethers";
 import { ipfsUploadImage, ipfsUploadMetadata } from '../utils/ipfsUpload';
 import { useMinterLabStore } from '../hooks';
-import { contract721ABI } from '../contracts';
+import { contract1155ABI } from '../contracts';
 import { Box } from '@mui/system';
 
 import { styled } from '@mui/system';
@@ -159,7 +159,8 @@ export function CreateNFT() {
     const [description, setDescription] = useState('');
     const [files, setFiles] = useState([]);
     const setIsLoading = useMinterLabStore(state => state.setIsLoading);
-    const selectedCollection = useMinterLabStore(state => state.selectedCollection);
+    const contract1155Address = useMinterLabStore(state => state.contract1155Address);
+    // const selectedCollection = useMinterLabStore(state => state.selectedCollection);
 
 
 
@@ -216,7 +217,7 @@ export function CreateNFT() {
 
     const handleIpfs = async (event) => {
         event.preventDefault();
-        console.log(selectedCollection);
+
         setIsLoading(true);
 
         if (files.length === 1 && name !== '' && description !== '') {
@@ -244,7 +245,7 @@ export function CreateNFT() {
             console.log("NFT IPFS upload is completed, NFT is stored at : ", tokenURL);
 
 
-            const contract = new ethers.Contract(selectedCollection.contract721Address, contract721ABI, signer);
+            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
             console.log(contract);
 
             if (signer === undefined) {
@@ -260,13 +261,28 @@ export function CreateNFT() {
 
             if (tempConfirm) {
 
-
+                const price = prompt("Enter price for 1155 NFT", "0.001")
+                const maxSupply = prompt("Enter maxSupply for 1155 NFT", "100")
                 try {
 
-
+                    // 요부분을 수정
                     const contractWithSigner = contract.connect(signer)
 
-                    const tx = await contractWithSigner.mintSingle(tokenURL)
+                    // 걍 getter 로 가져올수 있나 , 현재 ids 를?
+                    // 만약 IDs 를 가져왔는데 0 이면 , contract deploy 하게함 
+                    // if(IDs === 0){
+                    //     // contract deploy
+                    // } else {
+                    //     // set new sale.
+                    // }
+
+
+                    const tx1155 = await contractWithSigner.getValues(0, 100)
+                    console.log(tx1155)
+                    const newTokenId = tx1155[0].toNumber() + 1
+
+                    // const tx = await contractWithSigner.mintSingle(tokenURL)
+                    const tx = await contractWithSigner.setNewSale(newTokenId, ethers.utils.parseUnits(price, 18), +maxSupply, tokenURL)
 
                     const rc = await tx.wait()
 
@@ -286,6 +302,15 @@ export function CreateNFT() {
             alert("Please fill out all the fields");
         }
         setIsLoading(false);
+    }
+
+
+    async function getTokenId() {
+        const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
+        const contractWithSigner = contract.connect(signer)
+        const tx = await contractWithSigner.IDs()
+        console.log(tx)
+        return tx
     }
 
 
@@ -332,6 +357,7 @@ export function CreateNFT() {
 
                 <Button variant='contained' type="submit">Create NFT</Button>
             </form>
+            {/* <Button variant='contained' onClick={getTokenId}>getID</Button> */}
         </StyledBox>
     );
 }
