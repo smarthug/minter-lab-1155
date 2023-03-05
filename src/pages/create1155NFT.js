@@ -269,6 +269,12 @@ export function CreateNFT() {
                     const contractWithSigner = contract.connect(signer)
 
                     // 걍 getter 로 가져올수 있나 , 현재 ids 를?
+                    // 만약 IDs 를 가져왔는데 0 이면 , contract deploy 하게함 
+                    // if(IDs === 0){
+                    //     // contract deploy
+                    // } else {
+                    //     // set new sale.
+                    // }
 
 
                     const tx1155 = await contractWithSigner.getValues(0, 100)
