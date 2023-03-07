@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/minter-lab-1155/static/css/main.e366cd3c.css",
-    "main.js": "/minter-lab-1155/static/js/main.f8f9462c.js",
-    "static/js/268.f7652536.chunk.js": "/minter-lab-1155/static/js/268.f7652536.chunk.js",
+    "main.js": "/minter-lab-1155/static/js/main.a21cc71b.js",
+    "static/js/268.7ca5b332.chunk.js": "/minter-lab-1155/static/js/268.7ca5b332.chunk.js",
     "static/js/265.086ef242.chunk.js": "/minter-lab-1155/static/js/265.086ef242.chunk.js",
     "static/js/842.6afe9687.chunk.js": "/minter-lab-1155/static/js/842.6afe9687.chunk.js",
     "static/js/137.33718223.chunk.js": "/minter-lab-1155/static/js/137.33718223.chunk.js",
@@ -47,8 +47,8 @@
     "static/js/252.70b64322.chunk.js": "/minter-lab-1155/static/js/252.70b64322.chunk.js",
     "index.html": "/minter-lab-1155/index.html",
     "main.e366cd3c.css.map": "/minter-lab-1155/static/css/main.e366cd3c.css.map",
-    "main.f8f9462c.js.map": "/minter-lab-1155/static/js/main.f8f9462c.js.map",
-    "268.f7652536.chunk.js.map": "/minter-lab-1155/static/js/268.f7652536.chunk.js.map",
+    "main.a21cc71b.js.map": "/minter-lab-1155/static/js/main.a21cc71b.js.map",
+    "268.7ca5b332.chunk.js.map": "/minter-lab-1155/static/js/268.7ca5b332.chunk.js.map",
     "265.086ef242.chunk.js.map": "/minter-lab-1155/static/js/265.086ef242.chunk.js.map",
     "842.6afe9687.chunk.js.map": "/minter-lab-1155/static/js/842.6afe9687.chunk.js.map",
     "137.33718223.chunk.js.map": "/minter-lab-1155/static/js/137.33718223.chunk.js.map",
@@ -91,6 +91,6 @@
   },
   "entrypoints": [
     "static/css/main.e366cd3c.css",
-    "static/js/main.f8f9462c.js"
+    "static/js/main.a21cc71b.js"
   ]
 }
