@@ -89,7 +89,7 @@ export default function NFTSelect() {
     console.log(contract1155Address);
 
     const { chain } = useNetwork()
-    const chainId = chain?.id
+    const chainId = chain?.id ?? 0
     console.log(chainId);
 
     const Logo = chainIconsMap[chainId]

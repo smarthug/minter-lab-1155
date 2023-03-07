@@ -26,7 +26,7 @@ export function useSelectedCollectionId() {
 
 
     function setSelectedCollectionId(id) {
-        localStorage.setItem('selectedCollectionId', id)
+        // localStorage.setItem('selectedCollectionId', id)
         setSelectedCollectionId_store(id)
     }
 

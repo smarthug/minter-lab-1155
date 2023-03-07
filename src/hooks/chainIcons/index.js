@@ -28,6 +28,7 @@ import { default as Polygon } from "./Polygon";
 
 
 const chainMetadataByName = {
+    0: Ethereum,
     1: Ethereum,
     5: Ethereum,
     137: Polygon,
