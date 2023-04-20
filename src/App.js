@@ -1,5 +1,5 @@
 
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, useEffect } from 'react'
 // import Router from './router'
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +10,7 @@ import { getAccount } from '@wagmi/core'
 
 import { contract1155ABI, manager1155Address, manager1155ABI } from './contracts'
 import { ethers } from 'ethers';
+import { redirect, useHistory, useNavigate } from 'react-router-dom';
 
 
 
@@ -59,6 +60,9 @@ async function getContract1155Address() {
 
 
   } else {
+    // metamaskInstall 페이지로 이동 시키기
+    console.log("metamask is not installed")
+    // redirect("/metamaskInstall")
     return null
   }
 
@@ -105,6 +109,9 @@ const Router = lazy(() => getContract1155Address()
 
 
 export default function App() {
+ 
+
+
   return (
     <ThemeProvider theme={darkTheme}>
 
