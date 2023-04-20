@@ -69,7 +69,7 @@ async function getContract1155Address() {
 
 
 
-
+// 추후에 init 이라고 해서 따로 빼기 ...
 const Router = lazy(() => getContract1155Address()
   .then(address => {
 

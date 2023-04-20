@@ -149,7 +149,8 @@ function Buyer({ contract1155Address, chainId}) {
 
 
 
-    const { chain: { id: userWalletChainId } } = useNetwork();
+    const { chain } = useNetwork();
+    const userWalletChainId = chain?.id ?? 0
     console.log("userwalletchainid", userWalletChainId);
 
     const { data: signer, isError } = useSigner()
@@ -227,26 +228,26 @@ function Buyer({ contract1155Address, chainId}) {
         }
     }
 
-    useEffect(() => {
-        console.log("buyer minting page useEffect");
+    // useEffect(() => {
+    //     console.log("buyer minting page useEffect");
 
-        if (Number(chainId) !== userWalletChainId) {
+    //     if (Number(chainId) !== userWalletChainId) {
 
-            console.log("switchNetworkAsync", switchNetworkAsync);
-            // switchNetwork?.(+chainId)
+    //         console.log("switchNetworkAsync", switchNetworkAsync);
+    //         // switchNetwork?.(+chainId)
 
-            // switchNetwork?.(+chainId)
+    //         // switchNetwork?.(+chainId)
 
-            if (switchNetworkAsync) {
-                switchNetworkAsync(+chainId)
+    //         if (switchNetworkAsync) {
+    //             switchNetworkAsync(+chainId)
 
-            }
-        }
-
-
+    //         }
+    //     }
 
 
-    }, [switchNetworkAsync, chainId, userWalletChainId])
+
+
+    // }, [switchNetworkAsync, chainId, userWalletChainId])
 
 
 
