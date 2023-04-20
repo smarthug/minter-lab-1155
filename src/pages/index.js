@@ -6,3 +6,5 @@ export { Settings } from "./settings";
 export { About } from "./about";
 export { NotFound } from "./NotFound";
 
+export { MetamaskInstall } from "./metamaskInstall";
+
