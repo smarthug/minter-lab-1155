@@ -4,7 +4,9 @@ import { Button, Container, Typography } from "@mui/material";
 export const MetamaskInstall = () => {
   const handleInstallMetamask = () => {
     // Redirect user to the MetaMask installation page
-    window.location.href = "https://metamask.io/download.html";
+    // window.location.href = "https://metamask.io/download.html";
+    // open in new tab
+    window.open("https://metamask.io/download.html", "_blank");
   };
 
   return (
