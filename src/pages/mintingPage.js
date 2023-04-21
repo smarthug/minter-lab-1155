@@ -28,6 +28,7 @@ import { styled } from '@mui/material/styles';
 
 import { isChainTestnet, chainName, contract1155ABI } from "../contracts";
 
+import { PleaseCreateContract } from '../components/PleaseCreateContract';
 
 const ListContainer = styled(Box)`
   display: flex;
@@ -59,6 +60,20 @@ margin: 20px;
 `
 
 export function MintingPage() {
+    const isContractCreatedWithAccount = useMinterLabStore(state => state.isContractCreatedWithAccount)
+
+    return (
+        <div>
+
+            {
+                isContractCreatedWithAccount ? <MintingPageWhenContractExist /> : <PleaseCreateContract />
+            }
+
+        </div>
+    )
+}
+
+export function MintingPageWhenContractExist() {
 
 
     const { chainId, contract1155Address } = useParams()

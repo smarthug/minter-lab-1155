@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 
 
@@ -9,7 +9,7 @@ export default function MyRoutes() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (typeof window.ethereum === "undefined") {
             console.log("let's install metamask")
             navigate("/MetamaskInstall");

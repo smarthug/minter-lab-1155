@@ -1,22 +1,39 @@
 
 import React, { Suspense, lazy, useEffect } from 'react'
-// import Router from './router'
+
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import darkTheme from './utils/theme';
 import { Box } from '@mui/material';
 import { useMinterLabStore } from './hooks';
-import { getAccount } from '@wagmi/core'
+import { getAccount, getNetwork } from '@wagmi/core'
 
-import { contract1155ABI, manager1155Address, manager1155ABI } from './contracts'
+import { manager1155Address, manager1155ABI } from './contracts'
 import { ethers } from 'ethers';
-import { redirect, useHistory, useNavigate } from 'react-router-dom';
 
 
 
 
 
 
+function metamaskEventInit() {
+  window.ethereum.on('chainChanged', (chainId) => {
+    console.log("chainChanged")
+    console.log(chainId)
+    // metamaskEmitter.emit('chainChanged', chainId)
+    window.location.reload();
+  });
+
+  window.ethereum.on('accountsChanged', (accounts) => {
+    console.log("accountsChanged")
+    console.log(accounts)
+    // metamaskEmitter.emit('accountsChanged', accounts)
+    // emit 이 일으키는건 , 어떤한 스테이트의 변화?
+    // 결국 reload 를 하기에 의미가 없는건?
+    window.location.reload();
+  });
+
+}
 
 
 
@@ -28,12 +45,19 @@ import { redirect, useHistory, useNavigate } from 'react-router-dom';
 async function getContract1155Address() {
   console.log(window.ethereum)
   if (window.ethereum !== undefined) {
+    metamaskEventInit();
+
+
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     console.log("provider : ", provider)
     const signer = provider.getSigner()
 
 
     try {
+      const { chain } = getNetwork()
+      console.log(chain)
+
+
       const account = getAccount()
       console.log(account);
       console.log(signer);
@@ -88,11 +112,19 @@ const Router = lazy(() => getContract1155Address()
         useMinterLabStore.setState({
           contract1155Address: address,
         })
+
+        useMinterLabStore.setState({
+          isContractCreatedWithAccount: false
+        })
       } else {
 
         console.log("address is valid")
         useMinterLabStore.setState({
           contract1155Address: address,
+        })
+
+        useMinterLabStore.setState({
+          isContractCreatedWithAccount: true
         })
       }
     }
@@ -109,7 +141,7 @@ const Router = lazy(() => getContract1155Address()
 
 
 export default function App() {
- 
+
 
 
   return (
