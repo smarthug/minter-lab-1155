@@ -5,11 +5,11 @@ import { useDropzone } from 'react-dropzone';
 // import { styled } from '@mui/system';
 // import { TextField, Button } from '@material-ui/core';
 import { TextField, Button } from '@mui/material'
-import { useSigner } from "wagmi";
+import { useNetwork, useSigner } from "wagmi";
 import { ethers } from "ethers";
 import { ipfsUploadImage, ipfsUploadMetadata } from '../utils/ipfsUpload';
 import { useMinterLabStore } from '../hooks';
-import { contract1155ABI, manager1155ABI, manager1155Address } from '../contracts';
+import { contract1155ABI, manager1155ABI, manager1155AddressByChainId } from '../contracts';
 import { Box } from '@mui/system';
 
 import { styled } from '@mui/system';
@@ -160,10 +160,11 @@ export function CreateNFT() {
     const [files, setFiles] = useState([]);
     const setIsLoading = useMinterLabStore(state => state.setIsLoading);
     const contract1155Address = useMinterLabStore(state => state.contract1155Address);
+    const isContractCreatedWithAccount = useMinterLabStore(state => state.isContractCreatedWithAccount);
     // const selectedCollection = useMinterLabStore(state => state.selectedCollection);
 
 
-
+    const { chain } = useNetwork()
     const { data: signer, isError, isLoading } = useSigner();
     const { getRootProps,
         getInputProps,
@@ -252,6 +253,7 @@ export function CreateNFT() {
                 return;
             }
 
+            // const { chain } = getNetwork()
 
             let tempState = "Name : " + name + "\n" +
                 "Would you mint the NFT?";
@@ -271,11 +273,11 @@ export function CreateNFT() {
                     // 만약 IDs 를 가져왔는데 0 이면 , contract deploy 하게함 
                     // const IDs = await contractWithSigner.IDs()
                     // console.log("IDs", IDs)
-                    if(contract1155Address === "0x0000000000000000000000000000000000000000"){
+                    if(!isContractCreatedWithAccount){
                         // contract deploy
 
                         console.log("contract deploy")
-                        const manager1155 = new ethers.Contract(manager1155Address, manager1155ABI, signer);
+                        const manager1155 = new ethers.Contract(manager1155AddressByChainId[chain.id], manager1155ABI, signer);
 
                         const contractWithSigner = manager1155.connect(signer)
 

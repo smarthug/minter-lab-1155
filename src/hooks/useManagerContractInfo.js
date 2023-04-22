@@ -203,7 +203,7 @@ export function useManagerContractInfo() {
     const [managerAddress, setManagerAddress] = useState(addressObj[network?.chain.id])
     const [managerAbi, setManagerAbi] = useState(abiObj[network.chain.id])
 
-    const [manager1155Address, setManager1155Address] = useState(address1155Obj[network?.chain.id])
+    const [manager1155AddressByChainId, setmanager1155AddressByChainId] = useState(address1155Obj[network?.chain.id])
     const [manager1155Abi, setManager1155Abi] = useState(abi1155Obj[network.chain.id])
 
     // symbol 이랑 testnet 인지도
@@ -217,7 +217,7 @@ export function useManagerContractInfo() {
         setManagerAddress(addressObj[network.chain.id])
         setManagerAbi(abiObj[network.chain.id])
         
-        setManager1155Address(addressObj[network.chain.id])
+        setmanager1155AddressByChainId(addressObj[network.chain.id])
         setManager1155Abi(abiObj[network.chain.id])
 
         setChainSymbol(network.chain.nativeCurrency.symbol)

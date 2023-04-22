@@ -2,14 +2,16 @@ import { Button, Switch } from "@mui/material";
 import { Box } from "@mui/system";
 import { getCollections, importCollections } from "../utils/db";
 
-import { manager1155Address, manager1155ABI } from "../contracts";
-import { useAccount, useProvider, useSigner } from "wagmi";
+import { manager1155AddressByChainId, manager1155ABI } from "../contracts";
+import { useAccount, useNetwork, useProvider, useSigner } from "wagmi";
 import { ethers } from "ethers";
 
 export function Settings() {
 
     const account = useAccount();
     const provider = useProvider()
+
+    const { chain } = useNetwork()
 
     const { data: signer, isError, isLoading } = useSigner()
 
@@ -63,7 +65,7 @@ export function Settings() {
             // setIsLoading(true)
             // 사이너가 있어야 되네 .... 없으면 , 주소 안오네 ...
 
-            const contract = new ethers.Contract(manager1155Address, manager1155ABI, provider);
+            const contract = new ethers.Contract(manager1155AddressByChainId[chain.id], manager1155ABI, provider);
             const contractWithSigner = contract.connect(signer);
             console.log(contractWithSigner);
 
@@ -71,7 +73,7 @@ export function Settings() {
 
             console.log(tmpContract1155Address);
 
-            // const contract = new ethers.Contract(manager1155Address, manager1155ABI, signer);
+            // const contract = new ethers.Contract(manager1155AddressByChainId, manager1155ABI, signer);
             // console.log("contract", contract);
 
             // const tx = await contract.getMyContractAddress(0, 100)
