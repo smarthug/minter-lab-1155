@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 import { useMinterLabStore } from './hooks';
 import { getAccount, getNetwork } from '@wagmi/core'
 
-import { manager1155Address, manager1155ABI } from './contracts'
+import { manager1155AddressByChainId, manager1155ABI } from './contracts'
 import { ethers } from 'ethers';
 
 
@@ -66,11 +66,12 @@ async function getContract1155Address() {
       // }
 
       if (account.isConnected === false) {
-        alert("Please connect wallet")
+        // alert("Please connect wallet")
+        console.log("Please connect wallet")
         return null
       } else {
 
-        const manager1155 = new ethers.Contract(manager1155Address, manager1155ABI, signer);
+        const manager1155 = new ethers.Contract(manager1155AddressByChainId[chain.id], manager1155ABI, signer);
         const contractWithSigner = manager1155.connect(signer);
 
 

@@ -10,9 +10,23 @@ export const manager1155ABI = Contract1155Manager.output.abi
 export const contract1155ABI = Contract1155Contract.output.abi
 
 // export const manager721Address = "0x3e51E0C9F92209cb364416d59443780531106f3F"
-export const manager1155Address = "0xc730a979e940EA3Dc967D23813ce2F62F46D7524"
+// export const manager1155AddressByChainId = "0xc730a979e940EA3Dc967D23813ce2F62F46D7524"
 
 
+
+export const manager1155AddressByChainId = {
+    1:      "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
+    5:      "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
+    137:    "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
+    80001:  "0xc730a979e940EA3Dc967D23813ce2F62F46D7524"
+}
+
+// export const contract1155AddressByChainId = {
+//     1: "0x3e51E0C9F92209cb364416d59443780531106f3F",
+//     5: "0x3e51E0C9F92209cb364416d59443780531106f3F",
+//     137: "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
+//     80001: "0x3e51E0C9F92209cb364416d59443780531106f3F"
+// }
 
 
 export const chainName = {
