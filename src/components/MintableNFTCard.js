@@ -313,7 +313,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                                 Editions
                                             </StyledEditionRowName>
                                             <StyledEditionRowValue component="p">
-                                                10/100
+                                                {totalSupply}/{maxSupply}
                                             </StyledEditionRowValue>
                                         </StyledEditionRow>
                                         <Button
@@ -346,7 +346,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                     <span>$37.00</span>
                                     &nbsp;
                                     <StyledFloorePrice component="span">
-                                        = 12 MATIC
+                                        = {price} MATIC
                                     </StyledFloorePrice>
                                 </StyledPrice>
                                 <StyledEditionsBox>
@@ -356,7 +356,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                                 Editions
                                             </StyledEditionRowName>
                                             <StyledEditionRowValue component="p">
-                                                10/100
+                                                {totalSupply}/{maxSupply}
                                             </StyledEditionRowValue>
                                         </StyledEditionRow>
                                         <Button

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -6,8 +6,10 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import { Button, Fade, Grow, TextField } from '@mui/material';
 import { useMinterLabStore } from '../hooks';
-import { useSigner } from 'wagmi';
+import { useNetwork, useSigner } from 'wagmi';
 import axios from 'axios';
+import { chainSymbol, contract1155ABI } from '../contracts';
+import { ethers } from 'ethers';
 
 const StyledNiftyGatewayCardContainer = styled(Card)(({ theme }) => ({
     height: '415px',
@@ -198,6 +200,8 @@ const StyledInputRow = styled(Box)(({ theme }) => ({
 
 const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyProp }) => {
 
+
+    const { chain } = useNetwork()
     const [loading, setLoading] = useState(false);
     const [nftImageCid, setNftImageCid] = useState("");
 
@@ -219,6 +223,12 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
     const contract1155Address = useMinterLabStore(state => state.contract1155Address)
 
     const [checked, setChecked] = React.useState(false);
+
+    // const [inputPrice, setInputPrice] = useState(priceProp);
+    // const [inputMaxSupply, setInputMaxSupply] = useState(maxSupplyProp);
+
+    const priceRef = useRef();
+    const maxSupplyRef = useRef();
 
     const handleChange = () => {
         setChecked((prev) => !prev);
@@ -260,6 +270,62 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
         fetchNFTData()
     }, []);
 
+
+    async function updateMaxSupply() {
+
+        const maxSupply = maxSupplyRef.current.value ?? "0";
+        try {
+
+            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
+            const contractWithSigner = contract.connect(signer)
+
+            // console.log(account.address);
+
+            const tx = await contractWithSigner.setMaxSupply(maxSupply, tokenId)
+            const rc = await tx.wait()
+
+            console.log(tx);
+            console.log(rc);
+
+            setMaxSupply(maxSupply)
+        } catch (error) {
+            console.error(error);
+            // alert(error.message)
+
+        } finally {
+
+        }
+    }
+
+    async function updatePrice() {
+        const price = priceRef.current.value ?? "0";
+        try {
+
+            const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
+            const contractWithSigner = contract.connect(signer)
+
+            // console.log(account.address);
+
+            // const tx = await contractWithSigner.getValues(0,100)
+            // console.log(tx)
+            // console.log(tx[0].toNumber())
+
+            const tx = await contractWithSigner.setPrice(ethers.utils.parseUnits(`${price}`, 18), tokenId)
+            const rc = await tx.wait()
+
+            console.log(tx);
+            console.log(rc);
+
+            setPrice(price)
+        } catch (error) {
+            console.error(error);
+            // alert(error.message)
+
+        } finally {
+
+        }
+    }
+
     return (
         <StyledNiftyGatewayCardContainer>
             {
@@ -270,20 +336,20 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                 <StyledCardUpdater>
                                     <div>
                                         <StyledInputRow>
-                                            <TextField size="small" label="Price" variant="filled" />
+                                            <TextField size="small" label="Price" variant="filled" inputRef={priceRef} defaultValue={price}  />
                                             <Button
                                                 size="small"
-                                                variant="contained" color="primary" onClick={handleMint}>
+                                                variant="contained" color="primary" onClick={updatePrice}>
 
                                                 Update
                                             </Button>
                                         </StyledInputRow>
 
                                         <StyledInputRow>
-                                            <TextField size="small" label="Max Supply" variant="filled" />
+                                            <TextField size="small" label="Max Supply" variant="filled" inputRef={maxSupplyRef} defaultValue={maxSupply}  />
                                             <Button
                                                 size="small"
-                                                variant="contained" color="primary" onClick={handleMint}>
+                                                variant="contained" color="primary" onClick={updateMaxSupply}>
 
                                                 Update
                                             </Button>
@@ -300,10 +366,10 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                     {name}
                                 </StyledName>
                                 <StyledPrice component="p">
-                                    <span>$37.00</span>
+                                    <span>${price * 250}</span>
                                     &nbsp;
                                     <StyledFloorePrice component="span">
-                                        = 12 MATIC
+                                        = {price} {chainSymbol[chain.id]}
                                     </StyledFloorePrice>
                                 </StyledPrice>
                                 <StyledEditionsBox>
@@ -313,7 +379,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                                 Editions
                                             </StyledEditionRowName>
                                             <StyledEditionRowValue component="p">
-                                                10/100
+                                                {totalSupply}/{maxSupply}
                                             </StyledEditionRowValue>
                                         </StyledEditionRow>
                                         <Button
@@ -343,10 +409,10 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                     {name}
                                 </StyledName>
                                 <StyledPrice component="p">
-                                    <span>$37.00</span>
+                                    <span>${price * 250}</span>
                                     &nbsp;
                                     <StyledFloorePrice component="span">
-                                        = 12 MATIC
+                                        = {price} {chainSymbol[chain.id].toUpperCase()}
                                     </StyledFloorePrice>
                                 </StyledPrice>
                                 <StyledEditionsBox>
@@ -356,7 +422,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                                 Editions
                                             </StyledEditionRowName>
                                             <StyledEditionRowValue component="p">
-                                                10/100
+                                                {totalSupply}/{maxSupply}
                                             </StyledEditionRowValue>
                                         </StyledEditionRow>
                                         <Button
