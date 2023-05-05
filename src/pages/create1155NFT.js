@@ -154,6 +154,21 @@ const a = () => { }
 // }));
 
 
+const StyledInputRow = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    // WebkitBoxPack: 'justify',
+    // justifyContent: 'space-between',
+    // WebkitBoxAlign: 'center',
+    // alignItems: 'center',
+    // flexWrap: 'nowrap',
+    // gap: '32px',
+    // marginTop: '8px',
+    // marginBottom: '8px'
+    // height: '32px',
+    margin: "12px"
+}));
+
+
 export function CreateNFT() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -246,7 +261,7 @@ export function CreateNFT() {
             console.log("NFT IPFS upload is completed, NFT is stored at : ", tokenURL);
 
 
-           
+
 
             if (signer === undefined) {
                 alert("Please connect your wallet");
@@ -267,13 +282,13 @@ export function CreateNFT() {
                 try {
 
                     // 요부분을 수정
-               
+
 
                     // 걍 getter 로 가져올수 있나 , 현재 ids 를?
                     // 만약 IDs 를 가져왔는데 0 이면 , contract deploy 하게함 
                     // const IDs = await contractWithSigner.IDs()
                     // console.log("IDs", IDs)
-                    if(!isContractCreatedWithAccount){
+                    if (!isContractCreatedWithAccount) {
                         // contract deploy
 
                         console.log("contract deploy")
@@ -296,17 +311,17 @@ export function CreateNFT() {
                         const tx1155 = await contractWithSigner.getValues(0, 100)
                         console.log(tx1155)
                         const newTokenId = tx1155[0].toNumber() + 1
-    
+
                         // const tx = await contractWithSigner.mintSingle(tokenURL)
                         const tx = await contractWithSigner.setNewSale(newTokenId, ethers.utils.parseUnits(price, 18), +maxSupply, tokenURL)
-    
+
                         const rc = await tx.wait()
-    
-    
+
+
                         // alert("Your NFT is successfully minted!");
-    
+
                         console.log(tx);
-    
+
                         console.log(rc);
                     }
 
@@ -332,6 +347,10 @@ export function CreateNFT() {
         return tx
     }
 
+    async function handleMint() {
+
+    }
+
 
     return (
         <StyledBox
@@ -350,6 +369,7 @@ export function CreateNFT() {
                     </aside>
                 </section>
             </div>
+
 
             <form
 
@@ -373,6 +393,20 @@ export function CreateNFT() {
                     value={description}
                     onChange={handleDescriptionChange}
                 />
+
+                <TextField label="Price" />
+
+
+             
+
+                <TextField
+                    label="MaxSupply"
+                    name="description"
+                    value={description}
+                    onChange={handleDescriptionChange}
+                />
+             
+
 
                 <Button variant='contained' type="submit">Create NFT</Button>
             </form>
