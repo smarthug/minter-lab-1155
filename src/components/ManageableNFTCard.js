@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import { Button, Fade, Grow, TextField } from '@mui/material';
+import { useMinterLabStore } from '../hooks';
+import { useSigner } from 'wagmi';
+import axios from 'axios';
 
 const StyledNiftyGatewayCardContainer = styled(Card)(({ theme }) => ({
     height: '415px',
@@ -193,8 +196,27 @@ const StyledInputRow = styled(Box)(({ theme }) => ({
     margin: "12px"
 }));
 
-const NiftyGatewayCard = ({ nft }) => {
-    const { title, description, imageUrl, creator, price } = nft;
+const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSupplyProp }) => {
+
+    const [loading, setLoading] = useState(false);
+    const [nftImageCid, setNftImageCid] = useState("");
+
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+
+
+    const { data: signer, isError, isLoading } = useSigner()
+
+
+
+
+
+
+    const [totalSupply, setTotalSupply] = useState(totalSupplyProp);
+    const [price, setPrice] = useState(priceProp);
+    const [maxSupply, setMaxSupply] = useState(maxSupplyProp);
+
+    const contract1155Address = useMinterLabStore(state => state.contract1155Address)
 
     const [checked, setChecked] = React.useState(false);
 
@@ -202,12 +224,41 @@ const NiftyGatewayCard = ({ nft }) => {
         setChecked((prev) => !prev);
     };
 
-    window.handleChange = handleChange;
+
 
 
     function handleMint() {
         console.log("minting");
     }
+
+
+    useEffect(() => {
+        console.log("test");
+
+        async function fetchNFTData() {
+
+            try {
+
+                setLoading(true)
+
+                axios.get(tokenURL).then((res) => {
+                    console.log(res.data.image);
+                    setNftImageCid(res.data.image)
+                    setName(res.data.name)
+                    setDescription(res.data.description)
+                    setLoading(false)
+                })
+
+            } catch (error) {
+                console.error(error);
+
+            } finally {
+                // setLoading(false)
+            }
+        }
+
+        fetchNFTData()
+    }, []);
 
     return (
         <StyledNiftyGatewayCardContainer>
@@ -246,7 +297,7 @@ const NiftyGatewayCard = ({ nft }) => {
                                     <img src="https://www.niftygateway.com/static/media/polygon.eac3b5bb94b5760aeb108cc4d95c9921.svg" alt="Polygon Logo" width="20" height="20" />
                                 </StyledChainLogo>
                                 <StyledName component="p">
-                                    {title}
+                                    {name}
                                 </StyledName>
                                 <StyledPrice component="p">
                                     <span>$37.00</span>
@@ -282,14 +333,14 @@ const NiftyGatewayCard = ({ nft }) => {
 
                         <StyledNiftyGatewayCard>
                             <StyledNiftyGatewayCardMediaContainer>
-                                <StyledCardMedia component="img" height="200" image={imageUrl} alt={title} />
+                                <StyledCardMedia component="img" height="200" image={nftImageCid} alt={name} />
                             </StyledNiftyGatewayCardMediaContainer>
                             <StyledNiftyGatewayCardContentContainer>
                                 <StyledChainLogo>
                                     <img src="https://www.niftygateway.com/static/media/polygon.eac3b5bb94b5760aeb108cc4d95c9921.svg" alt="Polygon Logo" width="20" height="20" />
                                 </StyledChainLogo>
                                 <StyledName component="p">
-                                    {title}
+                                    {name}
                                 </StyledName>
                                 <StyledPrice component="p">
                                     <span>$37.00</span>
