@@ -220,9 +220,9 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
 
     const [checked, setChecked] = React.useState(false);
 
-    // const handleChange = () => {
-    //     setChecked((prev) => !prev);
-    // };
+    const handleChange = () => {
+        setChecked((prev) => !prev);
+    };
 
 
 
@@ -321,7 +321,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                                 height: '24px',
                                             }}
                                             fullWidth size='small' variant='contained'
-                                            // onClick={handleChange}
+                                            onClick={handleChange}
                                         >
                                             BACK
                                         </Button>
@@ -364,9 +364,9 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
                                                 height: '24px',
                                             }}
                                             fullWidth size='small' variant='contained'
-                                            onClick={handleMint}
+                                            onClick={handleChange}
                                         >
-                                            MINT
+                                            EDIT
                                         </Button>
                                     </StyledEdition>
                                 </StyledEditionsBox>

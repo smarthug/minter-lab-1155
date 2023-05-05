@@ -32,6 +32,8 @@ import { PleaseCreateContract } from '../components/PleaseCreateContract';
 
 import { getAccount, getNetwork } from '@wagmi/core'
 
+import MintableNFTCard from "../components/MintableNFTCard";
+
 const ListContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
@@ -462,7 +464,7 @@ function NFTInfoCardList({ nftInfoList, contract1155Address, chainId }) {
 
             {nftInfoList.map(({ tokenURL, price, maxSupply, totalSupply }, index) => {
                 return (
-                    <NFTInfoCard key={index} tokenId={index} tokenURL={tokenURL} priceProp={price} maxSupplyProp={maxSupply} totalSupplyProp={totalSupply} contract1155Address={contract1155Address} chainId={chainId} />
+                    <MintableNFTCard key={index} tokenId={index} tokenURL={tokenURL} priceProp={price} maxSupplyProp={maxSupply} totalSupplyProp={totalSupply} contract1155Address={contract1155Address} chainId={chainId} />
                 )
             })}
         </ListContainer>
