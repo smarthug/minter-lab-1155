@@ -18,7 +18,12 @@ export const manager1155AddressByChainId = {
     1:      "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
     5:      "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
     137:    "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
-    80001:  "0xc730a979e940EA3Dc967D23813ce2F62F46D7524"
+    80001:  "0xc730a979e940EA3Dc967D23813ce2F62F46D7524",
+
+    //zkevm
+    1101:   "0xEE712089D83073e23f0f30Dc9AAD176033CF4e0e",
+    1442:   "0xEE712089D83073e23f0f30Dc9AAD176033CF4e0e",
+
 }
 
 // export const contract1155AddressByChainId = {
@@ -33,21 +38,30 @@ export const chainName = {
     1: "Ethereum",
     5: "Goerli",
     137: "Polygon",
-    80001: "Polygon Mumbai"
+    80001: "Polygon Mumbai",
+
+    1101:   "Polygon zkEVM",
+    1442:   "zkEVM Testnet",
 }
 
 export const isChainTestnet = {
     1: false,
     5: true,
     137: false,
-    80001: true
+    80001: true,
+
+    1101:   false,
+    1442:   true,
 }
 
 export const chainSymbol = {
     1: "eth",
     5: "eth goerli",
     137: "matic",
-    80001: "matic mumbai"
+    80001: "matic mumbai",
+
+    1101:   "eth zkEVM",
+    1442:   "eth zkEVM goerli",
 }
 
 // export const chainIdNameMap = {

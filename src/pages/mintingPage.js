@@ -30,6 +30,8 @@ import { isChainTestnet, chainName, contract1155ABI } from "../contracts";
 
 import { PleaseCreateContract } from '../components/PleaseCreateContract';
 
+import { getAccount, getNetwork } from '@wagmi/core'
+
 const ListContainer = styled(Box)`
   display: flex;
   flex-wrap: wrap;
@@ -96,7 +98,9 @@ function Seller() {
     // const selectedCollection = useMinterLabStore(state => state.selectedCollection);
 
     // 이것도 , 처음에 로드할때 , 불러오는걸로 하자 ...
-    const chainId = 80001;
+    // const chainId = 80001;
+    const { chain } = getNetwork()
+    const chainId = chain.id
     const contract1155Address = useMinterLabStore(state => state.contract1155Address);
 
     return (

@@ -33,6 +33,9 @@ const chainMetadataByName = {
     5: Ethereum,
     137: Polygon,
     80001: Polygon,
+
+    1101:Polygon,
+    1442:Polygon,
 }
 
 export default chainMetadataByName;

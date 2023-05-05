@@ -1,6 +1,6 @@
 import { getDefaultWallets } from '@rainbow-me/rainbowkit'
 import { configureChains, createClient } from 'wagmi'
-import { goerli, mainnet,polygon, polygonMumbai } from 'wagmi/chains'
+import { goerli, mainnet, polygon, polygonMumbai ,polygonZkEvm,polygonZkEvmTestnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 // const { chains, provider, webSocketProvider } = configureChains(
@@ -12,7 +12,13 @@ import { publicProvider } from 'wagmi/providers/public'
 const MODE = 'development'
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet,polygon, ...(MODE === 'development' ? [goerli,polygonMumbai] : [])],
+  [
+    mainnet,
+    goerli,
+    polygon,
+    polygonMumbai,
+    polygonZkEvm,
+    polygonZkEvmTestnet, ...(MODE === 'development' ? [goerli, polygonMumbai] : [])],
   [
     publicProvider(),
   ],
@@ -38,4 +44,4 @@ export const client = createClient({
   webSocketProvider,
 })
 
-export { chains,provider }
+export { chains, provider }
