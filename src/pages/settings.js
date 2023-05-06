@@ -109,7 +109,7 @@ export function Settings() {
 
             <h2>Enable Testnet</h2>
             <div>
-                컬렉션 셀렉트에서 테스트넷을 보여줄지 말지 결정합니다.
+                whether to enable testnet
             </div>
             <Box>
                 <Switch defaultChecked />

@@ -239,7 +239,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
 
         console.log(account.address);
 
-        const tx = await contractWithSigner.mintSingle(account.address, account.address, tokenId, 1, { value: ethers.utils.parseEther(`${price}`), gasLimit: "1000000" })
+        const tx = await contractWithSigner.mintSingle(account.address, tokenId, 1, { value: ethers.utils.parseEther(`${price}`), gasLimit: "1000000" })
 
         const rc = await tx.wait()
 
