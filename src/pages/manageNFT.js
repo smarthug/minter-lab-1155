@@ -133,53 +133,102 @@ function ManageNFTWhenContractExist() {
         // }
 
 
+
+        async function FetchAllNFTInfo() {
+            try {
+                console.log("wtf ffffffffffffff")
+                console.log(contract1155Address)
+                const contract1155 = new ethers.Contract(`${contract1155Address}`, contract1155ABI, provider);
+
+
+
+
+                const tx1155 = await contract1155.getValues(0, 100)
+                console.log(tx1155)
+
+
+                console.log(tx1155[0].toNumber())
+                const tmpArray = []
+                for (let index = 0; index < tx1155[0].toNumber(); index++) {
+                    const maxSupply = tx1155[1][index];
+                    const totalSupply = tx1155[2][index];
+                    const price = tx1155[3][index];
+                    const tokenURL = tx1155[4][index];
+
+
+
+                    const NFTObj = {
+                        id: index,
+                        totalSupply: totalSupply.toNumber(),
+                        maxSupply: maxSupply.toNumber(),
+                        price: ethers.utils.formatUnits(price, 18),
+                        tokenURL: tokenURL
+                    }
+
+                    tmpArray.push(NFTObj)
+                }
+
+
+                setNftInfoList(tmpArray)
+
+            } catch (error) {
+                console.error(error);
+                // alert(error.message)
+                alert("connect Wallet first")
+
+            } finally {
+                // setIsLoading(false)
+            }
+        }
+
+
         FetchAllNFTInfo()
     }, [provider, contract1155Address])
 
 
-    async function FetchAllNFTInfo() {
-        console.log("?????????????????????")
-        try {
-            const contract = new ethers.Contract(contract1155Address, contract1155ABI, provider);
-            const contractWithSigner = contract.connect(signer);
-            // const tx1155 = await contractWithSigner.get(account.address,"0", "1")
+    // async function FetchAllNFTInfo() {
+    //     console.log("?????????????????????")
+    //     try {
+    //         const contract = new ethers.Contract(contract1155Address, contract1155ABI, provider);
+    //         const contractWithSigner = contract.connect(signer);
+    //         // const tx1155 = await contractWithSigner.get(account.address,"0", "1")
 
-            const tx1155 = await contractWithSigner.IDs();
-            // const tx1155 = await contractWithSigner.setNewSale(0, ethers.utils.parseUnits("0.1", 18), 99,"https://bafkreiettzzj252n22wriwzj55ojjukyvuenk74gejhff5u5n6t5tggmu4.ipfs.nftstorage.link")
+    //         const tx1155 = await contractWithSigner.IDs();
+    //         // const tx1155 = await contractWithSigner.setNewSale(0, ethers.utils.parseUnits("0.1", 18), 99,"https://bafkreiettzzj252n22wriwzj55ojjukyvuenk74gejhff5u5n6t5tggmu4.ipfs.nftstorage.link")
 
-            console.log(tx1155);
-            console.log("wth")
-            const IDs = await tx1155.toNumber();
+    //         console.log(tx1155);
+    //         console.log("wth")
+    //         const IDs = await tx1155.toNumber();
 
 
-            const NFTList = []
+    //         const NFTList = []
 
-            for (let i = 0; i < IDs; i++) {
-                const totalSupply = await contractWithSigner.totalSupply(i);
-                const maxSupply = await contractWithSigner.maxSupply(i);
-                const price = await contractWithSigner.price(i);
-                const tokenURL = await contractWithSigner.tokenURL(i);
+    //         for (let i = 0; i < IDs; i++) {
+    //             const totalSupply = await contractWithSigner.totalSupply(i);
+    //             const maxSupply = await contractWithSigner.maxSupply(i);
+    //             const price = await contractWithSigner.price(i);
+    //             const tokenURL = await contractWithSigner.tokenURL(i);
 
-                const NFTObj = {
-                    id: i,
-                    totalSupply: totalSupply.toNumber(),
-                    maxSupply: maxSupply.toNumber(),
-                    price: ethers.utils.formatUnits(price, 18),
-                    tokenURL: tokenURL
-                }
+    //             const NFTObj = {
+    //                 id: i,
+    //                 totalSupply: totalSupply.toNumber(),
+    //                 maxSupply: maxSupply.toNumber(),
+    //                 price: ethers.utils.formatUnits(price, 18),
+    //                 tokenURL: tokenURL
+    //             }
 
-                NFTList.push(NFTObj)
-            }
+    //             NFTList.push(NFTObj)
+    //         }
 
-            console.log(NFTList);
+    //         console.log(NFTList);
 
-            setNftInfoList(NFTList)
-        } catch (error) {
-            console.log(error)
-        } finally {
+    //         setNftInfoList(NFTList)
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
 
-        }
-    }
+    //     }
+    // }
 
 
     return (
@@ -192,9 +241,9 @@ function ManageNFTWhenContractExist() {
                     padding: "20px 20px",
                 }}
             >
-                <button onClick={FetchAllNFTInfo}>
+                {/* <button onClick={FetchAllNFTInfo}>
                     Refresh
-                </button>
+                </button> */}
                 <h1>Manage NFT</h1>
                 <h2>{contract1155Address}</h2>
 
