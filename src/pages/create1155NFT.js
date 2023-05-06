@@ -153,6 +153,52 @@ const StyledInputRow = styled(Box)(({ theme }) => ({
 
 
 export function CreateNFT() {
+    const isContractCreatedWithAccount = useMinterLabStore(state => state.isContractCreatedWithAccount);
+    console.log("isContractCreatedWithAccount", isContractCreatedWithAccount);
+
+    return (
+        <>
+            {isContractCreatedWithAccount ? <CreateNFTWhenContractExist /> : <CreateNFTWhenContractNotExist />}
+        </>
+
+    )
+}
+
+export function CreateNFTWhenContractNotExist() {
+    const { chain } = useNetwork()
+    const { data: signer, isError, isLoading } = useSigner();
+
+    async function DeploySmartContract() {
+        console.log("DeploySmartContract");
+
+        console.log("contract deploy")
+        const manager1155 = new ethers.Contract(manager1155AddressByChainId[chain.id], manager1155ABI, signer);
+
+        const contractWithSigner = manager1155.connect(signer)
+
+        const tx = await contractWithSigner.deployNFTContract()
+        const rc = await tx.wait()
+
+        console.log(tx);
+        console.log(rc);
+
+        window.location.reload();
+    }
+
+    return (
+        <div>
+            <h1>Please Deploy your Smart Contract</h1>
+            <Button onClick={DeploySmartContract} variant='outlined'>
+                Deploy Smart Contract
+            </Button>
+        </div>
+    )
+}
+
+
+
+
+export function CreateNFTWhenContractExist() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
 
@@ -165,7 +211,7 @@ export function CreateNFT() {
     const [price, setPrice] = useState(0);
     const [maxSupply, setMaxSupply] = useState(0);
 
-    const { chain } = useNetwork()
+    
     const { data: signer, isError, isLoading } = useSigner();
     const { getRootProps,
         getInputProps,
@@ -284,16 +330,7 @@ export function CreateNFT() {
                     if (!isContractCreatedWithAccount) {
                         // contract deploy
 
-                        console.log("contract deploy")
-                        const manager1155 = new ethers.Contract(manager1155AddressByChainId[chain.id], manager1155ABI, signer);
 
-                        const contractWithSigner = manager1155.connect(signer)
-
-                        const tx = await contractWithSigner.deployNFTContract(tokenURL, ethers.utils.parseUnits(price, 18), +maxSupply)
-                        const rc = await tx.wait()
-
-                        console.log(tx);
-                        console.log(rc);
                     } else {
                         // set new sale.
 
@@ -389,7 +426,7 @@ export function CreateNFT() {
                     onChange={handleDescriptionChange}
                 />
 
-               
+
 
                 <TextField
                     label="Price"
@@ -397,7 +434,7 @@ export function CreateNFT() {
                     value={price}
                     onChange={handlePriceChange}
                 />
-             
+
 
                 <TextField
                     label="MaxSupply"
@@ -405,7 +442,7 @@ export function CreateNFT() {
                     value={maxSupply}
                     onChange={handleMaxSupplyChange}
                 />
-             
+
 
 
                 <Button variant='contained' type="submit">Create NFT</Button>
