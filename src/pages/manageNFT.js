@@ -88,49 +88,49 @@ function ManageNFTWhenContractExist() {
     const [nftInfoList, setNftInfoList] = useState([])
 
     useLayoutEffect(() => {
-        async function FetchAllNFTInfo() {
-            console.log("?????????????????????")
-            try {
-                const contract = new ethers.Contract(contract1155Address, contract1155ABI, provider);
-                const contractWithSigner = contract.connect(signer);
-                // const tx1155 = await contractWithSigner.get(account.address,"0", "1")
+        // async function FetchAllNFTInfo() {
+        //     console.log("?????????????????????")
+        //     try {
+        //         const contract = new ethers.Contract(contract1155Address, contract1155ABI, provider);
+        //         const contractWithSigner = contract.connect(signer);
+        //         // const tx1155 = await contractWithSigner.get(account.address,"0", "1")
 
-                const tx1155 = await contractWithSigner.IDs();
-                // const tx1155 = await contractWithSigner.setNewSale(0, ethers.utils.parseUnits("0.1", 18), 99,"https://bafkreiettzzj252n22wriwzj55ojjukyvuenk74gejhff5u5n6t5tggmu4.ipfs.nftstorage.link")
+        //         const tx1155 = await contractWithSigner.IDs();
+        //         // const tx1155 = await contractWithSigner.setNewSale(0, ethers.utils.parseUnits("0.1", 18), 99,"https://bafkreiettzzj252n22wriwzj55ojjukyvuenk74gejhff5u5n6t5tggmu4.ipfs.nftstorage.link")
 
-                console.log(tx1155);
-                console.log("wth")
-                const IDs = await tx1155.toNumber();
+        //         console.log(tx1155);
+        //         console.log("wth")
+        //         const IDs = await tx1155.toNumber();
 
 
-                const NFTList = []
+        //         const NFTList = []
 
-                for (let i = 0; i < IDs; i++) {
-                    const totalSupply = await contractWithSigner.totalSupply(i);
-                    const maxSupply = await contractWithSigner.maxSupply(i);
-                    const price = await contractWithSigner.price(i);
-                    const tokenURL = await contractWithSigner.tokenURL(i);
+        //         for (let i = 0; i < IDs; i++) {
+        //             const totalSupply = await contractWithSigner.totalSupply(i);
+        //             const maxSupply = await contractWithSigner.maxSupply(i);
+        //             const price = await contractWithSigner.price(i);
+        //             const tokenURL = await contractWithSigner.tokenURL(i);
 
-                    const NFTObj = {
-                        id: i,
-                        totalSupply: totalSupply.toNumber(),
-                        maxSupply: maxSupply.toNumber(),
-                        price: ethers.utils.formatUnits(price, 18),
-                        tokenURL: tokenURL
-                    }
+        //             const NFTObj = {
+        //                 id: i,
+        //                 totalSupply: totalSupply.toNumber(),
+        //                 maxSupply: maxSupply.toNumber(),
+        //                 price: ethers.utils.formatUnits(price, 18),
+        //                 tokenURL: tokenURL
+        //             }
 
-                    NFTList.push(NFTObj)
-                }
+        //             NFTList.push(NFTObj)
+        //         }
 
-                console.log(NFTList);
+        //         console.log(NFTList);
 
-                setNftInfoList(NFTList)
-            } catch (error) {
-                console.log(error)
-            } finally {
+        //         setNftInfoList(NFTList)
+        //     } catch (error) {
+        //         console.log(error)
+        //     } finally {
 
-            }
-        }
+        //     }
+        // }
 
 
         FetchAllNFTInfo()

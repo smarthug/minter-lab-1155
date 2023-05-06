@@ -134,24 +134,7 @@ const StyledBox = styled(Box)((props) => {
 
 }
 );
-const a = () => { }
-//   const Container = styled()
 
-//   const Container = styled(div)((props) => ({
-//     flex: 1,
-//     display: "flex",
-//     flexDirection: "column",
-//     alignItems: "center",
-//     padding: "20px",
-//     borderWidth: "2px",
-//     borderRadius: "2px",
-//     borderColor: ${props => getColor(props)},
-//     borderStyle: "dashed",
-//     backgroundColor: #fafafa,
-//     color: #bdbdbd,
-//     outline: none,
-//     transition: border .24s ease-in-out,
-// }));
 
 
 const StyledInputRow = styled(Box)(({ theme }) => ({
@@ -172,12 +155,15 @@ const StyledInputRow = styled(Box)(({ theme }) => ({
 export function CreateNFT() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+
     const [files, setFiles] = useState([]);
     const setIsLoading = useMinterLabStore(state => state.setIsLoading);
     const contract1155Address = useMinterLabStore(state => state.contract1155Address);
     const isContractCreatedWithAccount = useMinterLabStore(state => state.isContractCreatedWithAccount);
     // const selectedCollection = useMinterLabStore(state => state.selectedCollection);
 
+    const [price, setPrice] = useState(0);
+    const [maxSupply, setMaxSupply] = useState(0);
 
     const { chain } = useNetwork()
     const { data: signer, isError, isLoading } = useSigner();
@@ -231,6 +217,14 @@ export function CreateNFT() {
         setDescription(e.target.value);
     }
 
+    const handlePriceChange = (e) => {
+        setPrice(e.target.value);
+    }
+
+    const handleMaxSupplyChange = (e) => {
+        setMaxSupply(e.target.value);
+    }
+
     const handleIpfs = async (event) => {
         event.preventDefault();
 
@@ -277,8 +271,7 @@ export function CreateNFT() {
 
             if (tempConfirm) {
 
-                const price = prompt("Enter price for 1155 NFT", "0.001")
-                const maxSupply = prompt("Enter maxSupply for 1155 NFT", "100")
+                //  
                 try {
 
                     // 요부분을 수정
@@ -308,12 +301,14 @@ export function CreateNFT() {
                         console.log(contract);
                         const contractWithSigner = contract.connect(signer)
 
-                        const tx1155 = await contractWithSigner.getValues(0, 100)
-                        console.log(tx1155)
-                        const newTokenId = tx1155[0].toNumber() + 1
+                        // const tx1155 = await contractWithSigner.getValues(0, 100)
+                        // console.log(tx1155)
+                        // const newTokenId = tx1155[0].toNumber() + 1
+                        const tx1155 = await contractWithSigner.IDs();
+                        const IDs = tx1155.toNumber();
 
                         // const tx = await contractWithSigner.mintSingle(tokenURL)
-                        const tx = await contractWithSigner.setNewSale(newTokenId, ethers.utils.parseUnits(price, 18), +maxSupply, tokenURL)
+                        const tx = await contractWithSigner.setNewSale(IDs, ethers.utils.parseUnits(price, 18), +maxSupply, tokenURL)
 
                         const rc = await tx.wait()
 
@@ -394,16 +389,21 @@ export function CreateNFT() {
                     onChange={handleDescriptionChange}
                 />
 
-                <TextField label="Price" />
+               
 
-
+                <TextField
+                    label="Price"
+                    name="price"
+                    value={price}
+                    onChange={handlePriceChange}
+                />
              
 
                 <TextField
                     label="MaxSupply"
-                    name="description"
-                    value={description}
-                    onChange={handleDescriptionChange}
+                    name="maxSupply"
+                    value={maxSupply}
+                    onChange={handleMaxSupplyChange}
                 />
              
 

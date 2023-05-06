@@ -6,8 +6,10 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 import { Button, Fade, Grow, TextField } from '@mui/material';
 import { useMinterLabStore } from '../hooks';
-import { useSigner } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 import axios from 'axios';
+import { ethers } from 'ethers';
+import { contract1155ABI } from '../contracts';
 
 const StyledNiftyGatewayCardContainer = styled(Card)(({ theme }) => ({
     height: '415px',
@@ -207,7 +209,7 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
 
     const { data: signer, isError, isLoading } = useSigner()
 
-
+    const account = useAccount()
 
 
 
@@ -227,8 +229,24 @@ const NiftyGatewayCard = ({ tokenId, tokenURL, totalSupplyProp, priceProp, maxSu
 
 
 
-    function handleMint() {
+    async function handleMint() {
         console.log("minting");
+
+
+
+        const contract = new ethers.Contract(contract1155Address, contract1155ABI, signer);
+        const contractWithSigner = contract.connect(signer)
+
+        console.log(account.address);
+
+        const tx = await contractWithSigner.mintSingle(account.address, account.address, tokenId, 1, { value: ethers.utils.parseEther(`${price}`), gasLimit: "1000000" })
+
+        const rc = await tx.wait()
+
+        console.log(tx);
+        console.log(rc);
+
+        setTotalSupply(totalSupply + 1)
     }
 
 
